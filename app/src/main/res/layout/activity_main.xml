@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="center_horizontal"
@@ -27,12 +28,16 @@
             android:layout_width="150sp"
             android:layout_height="80sp"
             android:layout_marginRight="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="go_map_info"
+
             android:text="Map
-Information"
-            />
+Information" />
         <Button
             android:layout_width="150sp"
             android:layout_height="80sp"
+            android:background="@drawable/button_style"
+            android:onClick="go_map_tactics"
             android:text="Map
 Tactics"
             />
@@ -40,6 +45,11 @@ Tactics"
 
     <Button
         android:layout_marginTop="10sp"
-        android:layout_width="300sp"
-        android:layout_height="120sp" />
+        android:layout_width="330sp"
+        android:layout_height="120sp"
+        android:text="My Page"
+        android:textSize="50sp"
+        android:onClick="go_mypage"
+        android:background="@drawable/button_style"
+        android:fontFamily="casual"/>
 </LinearLayout>
