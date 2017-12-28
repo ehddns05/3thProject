@@ -2,7 +2,44 @@
 <LinearLayout android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:gravity="center_horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android" >
+    <TextView
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:text="@string/main_page"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:layout_marginTop="30sp"
+        />
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_background"
+        />
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:layout_width="150sp"
+            android:layout_height="80sp"
+            android:layout_marginRight="30dp"
+            android:text="Map
+Information"
+            />
+        <Button
+            android:layout_width="150sp"
+            android:layout_height="80sp"
+            android:text="Map
+Tactics"
+            />
+    </LinearLayout>
 
+    <Button
+        android:layout_marginTop="10sp"
+        android:layout_width="300sp"
+        android:layout_height="120sp" />
 </LinearLayout>
