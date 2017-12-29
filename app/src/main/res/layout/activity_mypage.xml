@@ -30,20 +30,19 @@
         android:padding="10dp"/>
 
     <ImageButton
+        android:id="@+id/user_directMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/message_icon"
         android:layout_marginBottom="20dp"
         android:background="#000fffff"/>
 
-    <!--임시로 해둠-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-    <include layout="@layout/clear_map_info_box" />
-    <include layout="@layout/clear_map_info_box" />
-    <include layout="@layout/clear_map_info_box" />
-    </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/user_profile_clearRecord"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:scrollbars="horizontal">
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>
