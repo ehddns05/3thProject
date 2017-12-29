@@ -23,12 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
     //공략 게시판으로 넘어가는 메서드
     public void go_map_tactics(View view){
-
+        Intent intent = new Intent(this, MapTacticsListActivity.class);
+        startActivityForResult(intent,EDIT_VALUE);
     }
 
     //마이페이지로 넘어가는 메서드
     public void go_mypage(View view){
-
+        Intent intent = new Intent(this, MypageActivity.class);
+        startActivityForResult(intent,EDIT_VALUE);
     }
 
     @Override
