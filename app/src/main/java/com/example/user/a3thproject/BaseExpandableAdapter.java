@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KiM on 2017-12-28.
@@ -16,19 +16,12 @@ import java.util.List;
 
 public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<String> parentList;
-    private List<List<String>> childList;
     private Context context;
-    private LayoutInflater inflater;
-    private ViewHolder viewHolder;
+    private List<TacticsParentGroup> parentList;
+    private Map<Integer, TacticsChildGroup> childList;
 
-    private class ViewHolder{
-        public TextView parentText;
-        public TextView childText;
-    }
-
-    public BaseExpandableAdapter (Context context, List<String> parentList,
-                                     List<List<String>> childList) {
+    public BaseExpandableAdapter (Context context, List<TacticsParentGroup> parentList,
+                                  Map<Integer, TacticsChildGroup> childList) {
         this.context = context;
         this.parentList = parentList;
         this.childList = childList;
@@ -41,17 +34,18 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return childList.get(groupPosition).size();
+        return 1;
     }
 
     @Override
-    public String getGroup(int groupPosition) {
+    public TacticsParentGroup getGroup(int groupPosition) {
         return parentList.get(groupPosition);
     }
 
     @Override
     public String getChild(int groupPosition, int childPosition) {
-        return childList.get(groupPosition).get(childPosition);
+        return childList.get(this.parentList.get(groupPosition).getListNo())
+                .getTacticsContent();
     }
 
     @Override
@@ -66,35 +60,45 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return false;
     }
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if(view == null){
-            inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.tacticslist_parent, parent, false);
+        TacticsParentGroup parentGroup = getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) this.context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.tacticslist_parent, null);
         }
 
-        // ParentList의 Layout 연결 후, 해당 layout 내 TextView를 연결
-        TextView parentText = view.findViewById(R.id.parentText);
-        parentText.setText(getGroup(groupPosition));
-        return view;
+        TextView tacticsNo = convertView
+                .findViewById(R.id.parentListNo);
+        TextView tacticsTitle = convertView
+                .findViewById(R.id.parentListTitle);
+        TextView tacticsDate = convertView
+                .findViewById(R.id.parentListDate);
+
+        tacticsNo.setText(parentGroup.getListNo());
+        tacticsTitle.setText(parentGroup.getTacticsTitle());
+        tacticsDate.setText(parentGroup.getDate());
+
+        return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if(view == null){
-            viewHolder = new ViewHolder();
-            view = inflater.inflate(R.layout.tacticslist_parent, null);
-            viewHolder.parentText = view.findViewById(R.id.parentText);
-            inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        } else{
-            viewHolder = (ViewHolder) view.getTag();
+        final String childText = getChild(groupPosition, 0);
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.tacticslist_child, null);
         }
-        return view;
+
+        TextView textChild = convertView.findViewById(R.id.testChildText);
+
+        textChild.setText(childText);
+        return convertView;
     }
 
     @Override
