@@ -1,5 +1,6 @@
 package com.example.user.a3thproject;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText id_input, pw_input;
     String id_data, pw_data;
+    final int LOGIN_REQUEST_CODE = 0001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,12 @@ public class LoginActivity extends AppCompatActivity {
      * */
     class SendThread extends Thread{
 
+        // 각자의 ip 주소 써주셔야 합니당~~
         String addr = "http://203.233.199.108:8088/escape/app_login?id=" + id_data + "&pw=" + pw_data;
 
         @Override
         public void run() {
             try {
-
                 // URL 연결 및 데이터 전송을 위한 기본 세팅
                 URL url = new URL(addr);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -74,15 +76,18 @@ public class LoginActivity extends AppCompatActivity {
                     // inputStream에서 들어오는 데이터가 '-1(데이터가 없을때)'가 아니면 데이터를 읽어들인다.
                     while((dataFromClient=inputStream.read()) != -1){
                         // 읽어들인 데이터를 String화 시킨다.
-                        responseFromClient.append(dataFromClient);
+                        responseFromClient.append((char)dataFromClient);
                     }//while
-
-                    if(responseFromClient.equals("success")){
-                        // 아이디 및 비번이 일치
-
-                    }else if(responseFromClient.equals("fail")){
+                    Log.v("AfterDB", "data : " + responseFromClient);
+                    Log.v("AfterDB", "isTure : " + responseFromClient.toString().equals("success"));
+                    if(responseFromClient.toString().equals("success")){
+                        // 아이디 및 비번이 일치했을 때
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("loginUser", id_data);
+                        startActivity(intent);
+                    }else if(responseFromClient.toString().equals("fail")){
                         // 아이디 및 비번이 일치하지 않을 때
-
+                        Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
                     }//inner if
 
                 }//if
