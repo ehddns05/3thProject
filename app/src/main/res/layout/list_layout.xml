@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TextView
+                android:paddingLeft="10dp"
+                android:layout_weight="2"
+                android:id="@+id/list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:layout_weight="1"
+                android:id="@+id/list_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="name"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="3"
+                android:paddingRight="10dp"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2017/12/29"/>
+        </TableRow>
+
+        <TableRow>
+            <!--리스트 구분선-->
+            <LinearLayout
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/dot_line"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
