@@ -4,16 +4,26 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
     final static int EDIT_VALUE = 0;
+    ImageView imageView;
+    TextView textView;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageView = findViewById(R.id.imageView);
+        textView = findViewById(R.id.textView);
     }
     //맵 정보 게시판으로 넘어가는 메서드
     public void go_map_info(View view){
@@ -39,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode){
             case EDIT_VALUE :
                 if (resultCode == RESULT_OK){
+                    imageView.setImageResource(R.drawable.profile_03);
+                    textView.setText(id);
+
                     String message = data.getStringExtra("Textout");
                     Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 }else if (resultCode == RESULT_CANCELED){
