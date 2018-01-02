@@ -1,8 +1,5 @@
 package com.example.user.a3thproject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by KIM on 2017-12-29.
  */

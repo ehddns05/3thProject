@@ -12,6 +12,6 @@ public class TacticsChildGroup {
     }
 
     public String getTacticsContent() {
-        return tacticsContent;
+        return this.tacticsContent;
     }
 }

@@ -18,10 +18,10 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<TacticsParentGroup> parentList;
-    private Map<Integer, TacticsChildGroup> childList;
+    private Map<Integer, List<TacticsChildGroup>> childList;
 
     public BaseExpandableAdapter (Context context, List<TacticsParentGroup> parentList,
-                                  Map<Integer, TacticsChildGroup> childList) {
+                                  Map<Integer, List<TacticsChildGroup>> childList) {
         this.context = context;
         this.parentList = parentList;
         this.childList = childList;
@@ -34,7 +34,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 1;
+        return this.childList.get(this.parentList.get(groupPosition).getListNo()).size();
     }
 
     @Override
@@ -43,9 +43,8 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public String getChild(int groupPosition, int childPosition) {
-        return childList.get(this.parentList.get(groupPosition).getListNo())
-                .getTacticsContent();
+    public TacticsChildGroup getChild(int groupPosition, int childPosition) {
+        return this.childList.get(this.parentList.get(groupPosition).getListNo()).get(childPosition);
     }
 
     @Override
@@ -87,17 +86,17 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String childText = getChild(groupPosition, 0);
-
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+                             View convertView, ViewGroup parent) {
+        TacticsChildGroup childText = getChild(groupPosition, childPosition);
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) this.context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.tacticslist_child, null);
         }
 
         TextView textChild = convertView.findViewById(R.id.testChildText);
-
-        textChild.setText(childText);
+        textChild.setText(childText.getTacticsContent());
         return convertView;
     }
 
