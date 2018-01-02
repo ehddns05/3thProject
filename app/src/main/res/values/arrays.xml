@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="map_info_searchType">
+        <item>Title</item>
+        <item>Number</item>
+        <item>User</item>
+    </string-array>
+
+    <string-array name="dm_spinner">
+        <item>발신자</item>
+        <item>날짜</item>
+        <item>제목</item>
+    </string-array>
+
+</resources>

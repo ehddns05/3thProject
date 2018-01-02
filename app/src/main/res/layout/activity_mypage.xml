@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Page"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageView
+        android:id="@+id/user_profile_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/profile_01"/>
+
+    <TextView
+        android:id="@+id/user_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="임시 닉네임"
+        android:padding="10dp"/>
+
+    <ImageButton
+        android:id="@+id/user_directMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/message_icon"
+        android:layout_marginBottom="20dp"
+        android:background="#000fffff"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/user_profile_clearRecord"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:scrollbars="horizontal">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">3th,Project</string>
     <string name="main_page">Game Main</string>
+    <!--
+    <string name="tacticsMapName">The SecretChamber</string>
+    <string name="tacticsWriterAndDate">Master\n2017-12-25</string>
+    <string name="tacticsContents">00번맵 탈출 공략법 씀\n\n처음에 뭐하고 뭐하면 되고\n\n그다음부터는 알아서 하삼.\n\n맵 공략법\n\n완규완규박완규</string>
+    -->
 </resources>
