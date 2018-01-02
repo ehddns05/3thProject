@@ -78,7 +78,9 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
         TextView tacticsDate = convertView
                 .findViewById(R.id.parentListDate);
 
-        tacticsNo.setText(parentGroup.getListNo());
+        String listNo = String.valueOf(parentGroup.getListNo());
+
+        tacticsNo.setText(listNo);
         tacticsTitle.setText(parentGroup.getTacticsTitle());
         tacticsDate.setText(parentGroup.getDate());
 
