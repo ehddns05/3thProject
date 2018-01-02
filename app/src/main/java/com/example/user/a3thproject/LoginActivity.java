@@ -1,11 +1,14 @@
 package com.example.user.a3thproject;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,12 +22,45 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText id_input, pw_input;
     String id_data, pw_data;
+    CheckBox autoLogin_check;
+    boolean isAutoLogin;
     final int LOGIN_REQUEST_CODE = 0001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
+        autoLogin_check = findViewById(R.id.autoLogin_check);
+
+
+        if(isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true") || autoLogin_check.isChecked()){
+
+            // 자동 로그인 체크 여부 저장
+            SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
+            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "true");
+            isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
+
+            //자동 로그인이 체크되어 있다면 실행
+            SharedPreferences autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+
+            id_data = autoLogin.getString("id_data", null);
+            pw_data = autoLogin.getString("pw_data", null);
+
+            if(id_data != null && pw_data != null){
+                Log.v("TEST_LOGIN", id_data + ", " + pw_data);
+                // 로그인 데이터가 있을 때
+                isAutoLogin = true;
+                SendThread thread = new SendThread();
+                thread.start();
+            }else{
+                // 로그인 데이터가 없을 때
+                isAutoLogin = false;
+
+            }//inner else if
+        }//outer if
+
     }//onCrate
 
     /**
@@ -78,20 +114,53 @@ public class LoginActivity extends AppCompatActivity {
                         // 읽어들인 데이터를 String화 시킨다.
                         responseFromClient.append((char)dataFromClient);
                     }//while
-                    Log.v("AfterDB", "data : " + responseFromClient);
-                    Log.v("AfterDB", "isTure : " + responseFromClient.toString().equals("success"));
-                    if(responseFromClient.toString().equals("success")){
-                        // 아이디 및 비번이 일치했을 때
+
+                    if(isAutoLogin == true && responseFromClient.toString().equals("success")){
+
+                        // 아이디 및 비번이 일치했을 때 - 자동로그인 시
+
+                        //Toast.makeText(LoginActivity.this, "자동로그인입니다.", Toast.LENGTH_SHORT).show();
+                        Log.v("TEST_LOGIN", "자동 로그인입니다.");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("loginUser", id_data);
                         startActivity(intent);
-                    }else if(responseFromClient.toString().equals("fail")){
+
+                    }else if(isAutoLogin == false && responseFromClient.toString().equals("success")){
+
+                        // 아이디 및 비번이 일치했을 때
+                        SharedPreferences autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+                        Log.v("TEST_LOGIN", "일반 로그인입니다.");
+
+                        // SharedPreferences에 사용자가 입력한 로그인 데이터를 저장한다.
+
+                        SharedPreferences.Editor login_info_editor = autoLogin.edit();
+                        login_info_editor.putString("id_data", id_data);
+                        login_info_editor.putString("pw_data", pw_data);
+                        login_info_editor.commit();// 사용자가 입력한 로그인데이터를 최종적으로 commit 함으로써 데이터를 저장할 수 있다. (commit 필수!)
+
+                        //Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("loginUser", id_data);
+                        startActivity(intent);
+                    }else if(isAutoLogin == true && responseFromClient.toString().equals("fail")){
+
+                        // 아이디 및 비번이 일치하지 않을 때 - 자동로그인 시
+                        Log.v("TEST_LOGIN", "자동 로그인 실패!");
+                        //Toast.makeText(LoginActivity.this, "자동로그인 실패!", Toast.LENGTH_SHORT).show();
+
+                        return;
+                    }else if(isAutoLogin == false && responseFromClient.toString().equals("fail")){
+
                         // 아이디 및 비번이 일치하지 않을 때
-                        Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
+                        Log.v("TEST_LOGIN", "일반 로그인 실패!");
+                        //Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
+                        return;
                     }//inner if
 
-                }//if
+                    finish();
 
+                }//if
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

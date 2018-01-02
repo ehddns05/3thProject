@@ -84,6 +84,13 @@
         android:onClick="isNotMember"
         />
 
+    <CheckBox
+        android:id="@+id/autoLogin_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto login"
+        android:layout_gravity="right"
+        />
 
 
 </LinearLayout>
