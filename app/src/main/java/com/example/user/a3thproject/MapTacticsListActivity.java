@@ -40,7 +40,7 @@ public class MapTacticsListActivity extends AppCompatActivity {
         childList = new HashMap<>();
         innerChild = new ArrayList<>();
         childGroup = new TacticsChildGroup(
-                "완큐의방", "박완규", "이방은탈출할수없다.");
+                "완큐의방", "박완규", "이방은탈출할수없다!!!!");
 
         innerChild.add(childGroup);
         childList.put(parentGroup.getListNo(), innerChild);
