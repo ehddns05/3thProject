@@ -97,8 +97,13 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.tacticslist_child, null);
         }
 
-        TextView textChild = convertView.findViewById(R.id.testChildText);
-        textChild.setText(childText.getTacticsContent());
+        TextView mapTitle = convertView.findViewById(R.id.mapTitle);
+        TextView tacticsWriter = convertView.findViewById(R.id.tacticsWriter);
+        TextView tacticsContents= convertView.findViewById(R.id.testChildText);
+
+        mapTitle.setText(childText.getMapTitle());
+        tacticsWriter.setText(childText.getTacticsWriter());
+        tacticsContents.setText(childText.getTacticsContent());
         return convertView;
     }
 

@@ -2,7 +2,6 @@ package com.example.user.a3thproject;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -35,11 +34,14 @@ public class MapTacticsListActivity extends AppCompatActivity {
     public void preparedListData() {
         parentList = new ArrayList<>();
         parentGroup = new TacticsParentGroup(1,"Notice", "20170102");
+
         parentList.add(parentGroup);
 
         childList = new HashMap<>();
         innerChild = new ArrayList<>();
-        childGroup = new TacticsChildGroup("abcdefgHijklmnopqr");
+        childGroup = new TacticsChildGroup(
+                "완큐의방", "박완규", "이방은탈출할수없다.");
+
         innerChild.add(childGroup);
         childList.put(parentGroup.getListNo(), innerChild);
     }
