@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,9 +15,11 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class MypageActivity extends AppCompatActivity {
 
@@ -29,18 +32,27 @@ public class MypageActivity extends AppCompatActivity {
     RecyclerView.LayoutManager recyLayoutManager;
     ArrayList<ClearRecode> recodes;
 
+    String profileName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
         //로그인 완성 후 SharedPreferences 의 이름 저장된걸로 바꿔주기
-        autoLogin = getSharedPreferences("login", Activity.MODE_PRIVATE);
+        autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
         textView = findViewById(R.id.user_profile_name);
         imageView = findViewById(R.id.user_profile_pic);
         imgbtn = findViewById(R.id.user_directMessage);
+        imgbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
+                intent.putExtra("id_data", autoLogin.getString("id_data", null).trim());
+                startActivity(intent);
+            }
+        });
 
-        //레코드 체워넣어야함
         recodes = new ArrayList<>();
         myPageSetting();
 
@@ -57,17 +69,19 @@ public class MypageActivity extends AppCompatActivity {
      * 로그인 되어있을 경우, 저장되어있는 SharedPreferences 에서 로그인 정보를 받아와 마이페이지에 세팅
      */
     public void myPageSetting(){
-        String userNickname = autoLogin.getString("nickname", null);
-        String userProfilePic = "@drawable/" + autoLogin.getString("profile", null);
-        int profileId = getResources()
-                .getIdentifier(userProfilePic, "drawable", this.getPackageName());
-
         //이름, 프로필사진
-        textView.setText(userNickname);
+        String id_data = autoLogin.getString("id_data", null).trim();
+        textView.setText(id_data);
+
+        GetProfile getProfile = new GetProfile(id_data);
+        getProfile.start();
+//        String userProfilePic = "@drawable/" + autoLogin.getString("profile", null);
+        int profileId = getResources()
+                .getIdentifier(profileName, "drawable", this.getPackageName());
         imageView.setImageResource(profileId);
 
         //클리어 기록
-        Thread clearThread = new ClearRecodeThread(userNickname);
+        Thread clearThread = new ClearRecodeThread(id_data);
         clearThread.start();
 
         //DM창으로 이동
@@ -82,15 +96,15 @@ public class MypageActivity extends AppCompatActivity {
     }
 
     /**
-     * 유저의 닉네임으로 유저가 클리어한 맵의 기록을 받아온다.
+     * 유저의 아이디로 유저가 클리어한 맵의 기록을 받아온다.
      */
     class ClearRecodeThread extends Thread{
-        String nickName;
-        public ClearRecodeThread(String nickname){ this.nickName = nickname; }
+        String id_data;
+        public ClearRecodeThread(String id_data){ this.id_data = id_data; }
 
         @Override
         public void run() {
-            String addr = "http://10.10.12.116:8888/escape/getClearRecord?nickName=" + nickName;
+            String addr = "http://10.10.15.87:8888/escape/getClearRecord?id=" + id_data;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -106,7 +120,40 @@ public class MypageActivity extends AppCompatActivity {
                         }
                     }
                 }
+            } catch(Exception e){}
+        }
+    }
 
+    /**
+     * 프로필 사진 받아오기
+     */
+    class GetProfile extends Thread{
+        String id_data;
+        public GetProfile(String id_data){ this.id_data = id_data; }
+
+        @Override
+        public void run() {
+            String addr = "http://10.10.15.87:8888/escape/getUserProfile?id=" + id_data;
+            try{
+                URL url = new URL(addr);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                if(conn != null){
+                    conn.setConnectTimeout(1000);
+                    conn.setRequestMethod("GET");
+                    if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+                        InputStreamReader inr = new InputStreamReader(conn.getInputStream());
+                        int ch;
+                        StringBuilder sb = new StringBuilder();
+                        while((ch = inr.read()) != -1){
+                            sb.append((char) ch);
+                        }
+
+                        if(sb.length() != 0){
+                            profileName = "@drawable/" + sb.toString();
+                            Log.v("프로필 사진 이름 : ", profileName);
+                        }
+                    }
+                }
             } catch(Exception e){}
         }
     }
