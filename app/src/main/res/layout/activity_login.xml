@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40sp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="130dp"
         android:baselineAligned="false"
         android:text="Login"
         android:textSize="30sp"
