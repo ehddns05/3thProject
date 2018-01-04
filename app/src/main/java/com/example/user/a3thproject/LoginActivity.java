@@ -31,9 +31,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // 처음 앱 실행시 NullPoint 를 방지하기 위한 코드
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
-
+        SharedPreferences.Editor autoLogin_editor = isCheckedForAutoLogin.edit();
+        autoLogin_editor.putString("autoLogin_checked", "false");
+        autoLogin_editor.commit();
 
         if(isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true") || autoLogin_check.isChecked()){
             String s = "TEST";
@@ -100,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setRequestProperty("dataType", "json");
-                urlConnection.setConnectTimeout(10000);
+                urlConnection.setConnectTimeout(30000);
 
                 // 클라이언트로부터 받아오는 데이터를 StringBuilder로 받는다.
                 StringBuilder responseFromClient = new StringBuilder();
