@@ -39,7 +39,6 @@ public class MapTacticsListActivity extends AppCompatActivity {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView,
                                         View view, int groupPosition, long id) {
-                Log.d("클릭확인클릭확인", String.valueOf(lastClickedPosition));
 
                 if (lastClickedPosition != groupPosition) {
                     expListView.collapseGroup(lastClickedPosition);
