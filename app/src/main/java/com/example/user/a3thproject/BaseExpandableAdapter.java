@@ -34,7 +34,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.childList.get(this.parentList.get(groupPosition).getListNo()).size();
+        return 1 /*this.childList.get(this.parentList.get(groupPosition).getListNo()).size()*/;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public TacticsChildGroup getChild(int groupPosition, int childPosition) {
-        return this.childList.get(this.parentList.get(groupPosition).getListNo()).get(childPosition);
+        return this.childList.get(this.parentList.get(groupPosition).getListNo()).get(groupPosition);
     }
 
     @Override
