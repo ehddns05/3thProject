@@ -20,7 +20,9 @@
         </activity>
 
         <activity android:name=".MainActivity" android:label="main_page"/>
-
+        <activity android:name=".MapInfoListActivity" android:label="MapInfoList" />
+        <activity android:name=".MapTacticsListActivity" android:label="MapTacticsList" />
+        <activity android:name=".MypageActivity" android:label="Mypage" />
     </application>
 
 </manifest>
