@@ -48,7 +48,7 @@ public class DirectMessageActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            String addr = "http://10.10.12.116:8888/escape/getDM?nickName="+nickName;
+            String addr = "http://10.10.15.87:8888/escape/getDM?nickName="+nickName;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
