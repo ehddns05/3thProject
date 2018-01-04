@@ -33,7 +33,9 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
-
+        SharedPreferences.Editor autoLogin_editor = isCheckedForAutoLogin.edit();
+        autoLogin_editor.putString("autoLogin_checked", "false");
+        autoLogin_editor.commit();
 
         if(isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true") || autoLogin_check.isChecked()){
 
