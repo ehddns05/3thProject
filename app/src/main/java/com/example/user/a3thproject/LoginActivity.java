@@ -34,6 +34,12 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
 
+        // 처음 앱을 설치했을 때 isCheckedForAutoLogin으로 인해 NullPoint 에러를 방지하기 위한 코드
+        if(isCheckedForAutoLogin.getString("autoLogin_checked",null) == null){
+            SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
+            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "false");
+            isCheckedForAutoLogin_editor.commit();
+        }
 
         if(isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true") || autoLogin_check.isChecked()){
 
@@ -90,7 +96,8 @@ public class LoginActivity extends AppCompatActivity {
     class SendThread extends Thread{
 
         // 각자의 ip 주소 써주셔야 합니당~~
-        String addr = "http://203.233.199.108:8088/escape/app_login?id=" + id_data + "&pw=" + pw_data;
+        //동운 10.10.15.10
+        String addr = "http://10.10.15.10:8088/ccc/app_login?id=" + id_data + "&pw=" + pw_data;
 
         @Override
         public void run() {
