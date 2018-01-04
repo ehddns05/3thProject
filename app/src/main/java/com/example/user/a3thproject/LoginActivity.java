@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if(isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true") || autoLogin_check.isChecked()){
-
+            String s = "TEST";
             // 자동 로그인 체크 여부 저장
             SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
             isCheckedForAutoLogin_editor.putString("autoLogin_checked", "true");
