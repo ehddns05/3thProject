@@ -48,7 +48,6 @@ public class MypageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
-                intent.putExtra("id_data", autoLogin.getString("id_data", null).trim());
                 startActivity(intent);
             }
         });
