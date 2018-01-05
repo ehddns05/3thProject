@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +14,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -32,7 +36,11 @@ public class MypageActivity extends AppCompatActivity {
     RecyclerView.LayoutManager recyLayoutManager;
     ArrayList<ClearRecode> recodes;
 
-    String profileName;
+    StringBuffer sb = new StringBuffer();
+    TextView temp;
+
+    int profileName;
+    String id_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +61,14 @@ public class MypageActivity extends AppCompatActivity {
         });
 
         recodes = new ArrayList<>();
-        myPageSetting();
+        if(autoLogin != null) myPageSetting();
 
         //recyclerView 를 위한 설정. 가로 리스트뷰
         recyclerView = findViewById(R.id.user_profile_clearRecord);
         recyLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyLayoutManager);
-        recyAdapter = new ClaerRecodeAdapter(recodes, this);
-        recyclerView.setAdapter(recyAdapter);
 
+        temp = findViewById(R.id.tempTest);
     }
 
     /**
@@ -69,15 +76,11 @@ public class MypageActivity extends AppCompatActivity {
      */
     public void myPageSetting(){
         //이름, 프로필사진
-        String id_data = autoLogin.getString("id_data", null).trim();
+        id_data = autoLogin.getString("id_data", null).trim();
         textView.setText(id_data);
 
         GetProfile getProfile = new GetProfile(id_data);
         getProfile.start();
-//        String userProfilePic = "@drawable/" + autoLogin.getString("profile", null);
-        int profileId = getResources()
-                .getIdentifier(profileName, "drawable", this.getPackageName());
-        imageView.setImageResource(profileId);
 
         //클리어 기록
         Thread clearThread = new ClearRecodeThread(id_data);
@@ -112,14 +115,32 @@ public class MypageActivity extends AppCompatActivity {
                     conn.setRequestMethod("GET");
                     conn.addRequestProperty("dataType", "json");
                     if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-                        JSONArray json= new JSONArray(conn.toString());
-                        for(int i = 0; i< json.length(); i++){
-                            Object jsonData = json.getJSONObject(i).optString("null");
-                            recodes.add((ClearRecode) jsonData);
+                        int ch;
+                        InputStreamReader inReader = new InputStreamReader(conn.getInputStream());
+                        while ((ch = inReader.read()) != -1) sb.append((char) ch);
+                        inReader.close();
+                        infoHandler.sendEmptyMessage(1);
+
+                        //ArrayList에 받아온 정보를 넣는다
+                        JSONArray json = new JSONArray(sb.toString());
+                        for(int i = 0; i<json.length(); i++){
+                            JSONObject jo = json.getJSONObject(i);
+                            String id = jo.getString("id");
+                            String mapTitle = jo.getString("mapTitle");
+                            String clearTime = jo.getString("clearTime");
+                            String mapTitleImg = jo.getString("mapTitleImg");
+                            double star = jo.getInt("star");
+
+                            recodes.add(new ClearRecode(id, mapTitle, clearTime, mapTitleImg, star));
                         }
+                    }else{
+                        Toast.makeText(MypageActivity.this, "서버 접속 불가"
+                                , Toast.LENGTH_SHORT).show();
                     }
                 }
-            } catch(Exception e){}
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -133,6 +154,7 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             String addr = "http://10.10.15.87:8888/escape/getUserProfile?id=" + id_data;
+            Log.v("보낼 주소" , addr);
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -146,14 +168,28 @@ public class MypageActivity extends AppCompatActivity {
                         while((ch = inr.read()) != -1){
                             sb.append((char) ch);
                         }
-
                         if(sb.length() != 0){
-                            profileName = "@drawable/" + sb.toString();
-                            Log.v("프로필 사진 이름 : ", profileName);
+                            profileName = getResources().getIdentifier("@drawable/" + sb.toString()
+                                    , "drawable", MypageActivity.this.getPackageName());
+                            Log.v("프로필 사진 아이디 : ", ""+profileName);
+                            infoHandler.sendEmptyMessage(0);
                         }
                     }
                 }
             } catch(Exception e){}
         }
     }
+
+    Handler infoHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 0){
+                imageView.setImageResource(profileName);
+            }else if(msg.what == 1){
+//                recyAdapter = new ClaerRecodeAdapter(recodes, MypageActivity.this);
+//                recyclerView.setAdapter(recyAdapter);
+                temp.setText(sb.toString());
+            }
+        }
+    };
 }

@@ -10,10 +10,11 @@ public class ClearRecode {
 
     public ClearRecode(){}
 
-    public ClearRecode(String id, String mapTitle, String clearTime, double star) {
+    public ClearRecode(String id, String mapTitle, String clearTime, String mapTitleImg, double star) {
         this.id = id;
         this.mapTitle = mapTitle;
         this.clearTime = clearTime;
+        this.mapTitleImg = mapTitleImg;
         this.star = star;
     }
 
