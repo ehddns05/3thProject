@@ -3,13 +3,23 @@ package com.example.user.a3thproject;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,54 +27,89 @@ import java.util.ArrayList;
 public class DirectMessageActivity extends AppCompatActivity {
 
     Spinner spinner;
-    ListView dmList;
+    RecyclerView dmList;
+    RecyclerView.Adapter dmListAdapter;
+    RecyclerView.LayoutManager dmListLayoutManager;
     SharedPreferences autoLogin;
     ArrayList<DirectMessage> dmListData;
+
+    String id_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direct_message);
 
-        dmList = findViewById(R.id.directMessage_list);
-        dmListData = new ArrayList<>();
         spinner = findViewById(R.id.directMessage_spinner);
-        autoLogin = getSharedPreferences("login", Activity.MODE_PRIVATE);
+        autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+        id_data = autoLogin.getString("id_data", null);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(this, R.array.dm_spinner, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        //recyclerView 를 위한 설정. 가로 리스트뷰
+        dmList = findViewById(R.id.directMessage_list);
+        dmListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        dmList.setLayoutManager(dmListLayoutManager);
+
+        //dmList에 넣을 메시지 데이터
+        dmListData = new ArrayList<>();
 
         GetDMThread thread = new GetDMThread();
         thread.start();
     }
 
     /**
-     * 유저에게 클리어 기록이 있으면 기록을 받아와 만들어져 있는 ArrayList 에 집어넣음
+     * 유저에게 온 DM이 있으면 가져와서 나타내주기.
      */
     class GetDMThread extends Thread{
-        String nickName = autoLogin.getString("nickname", null);
-
         @Override
         public void run() {
-            String addr = "http://10.10.15.87:8888/escape/getDM?nickName="+nickName;
+            //IP바꿔서 사용하기
+            String addr = "http://10.10.8.157:8888/escape/getDirectMessage?id=" + id_data;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 if(conn != null){
                     conn.setConnectTimeout(1000);
                     conn.setRequestMethod("GET");
-                    conn.addRequestProperty("dataType", "json");
                     if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-                        JSONArray json= new JSONArray(conn.toString());
-                        for(int i = 0; i<json.length(); i++){
-                            Object jsonData = json.getJSONObject(i).optString("null");
-                            dmListData.add((DirectMessage) jsonData);
+                        InputStreamReader inr = new InputStreamReader(conn.getInputStream());
+                        int ch;
+                        StringBuilder sb = new StringBuilder();
+                        while((ch = inr.read()) != -1){
+                            sb.append((char) ch);
                         }
+                        //ArrayList에 받아온 정보를 넣는다
+                        JSONArray json = new JSONArray(sb.toString());
+                        for(int i = 0; i<json.length(); i++){
+                            JSONObject jo = json.getJSONObject(i);
+                            int no = jo.getInt("num");
+                            String writer = jo.getString("writer");
+                            String title = jo.getString("title");
+                            String content = jo.getString("content");
+                            String date = jo.getString("date");
+
+                            dmListData.add(new DirectMessage(no, writer, title, content, date));
+                        }
+                        dmHandler.sendEmptyMessage(0);
+                    }else{
+                        Toast.makeText(DirectMessageActivity.this, "서버 접속 불가"
+                                , Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch(Exception e){}
         }
     }
+
+    Handler dmHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 0){
+                if(dmListData.size() != 0){
+                    dmListAdapter = new DirectMessageAdapter(dmListData, DirectMessageActivity.this);
+                    dmList.setAdapter(dmListAdapter);
+                }else{
+                    //DM이 없을 경우 할 설정 - 아직미정
+                }
+            }
+        }
+    };
 }

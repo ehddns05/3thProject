@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +26,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class MypageActivity extends AppCompatActivity {
 
@@ -92,7 +93,6 @@ public class MypageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
@@ -104,7 +104,7 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             //IP바꿔서 사용하기
-            String addr = "http://10.10.15.87:8888/escape/getClearRecord?id=" + id_data;
+            String addr = "http://10.10.8.157:8888/escape/getClearRecord?id=" + id_data;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -153,7 +153,7 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             //IP바꿔서 사용하기
-            String addr = "http://10.10.15.87:8888/escape/getUserProfile?id=" + id_data;
+            String addr = "http://10.10.8.157:8888/escape/getUserProfile?id=" + id_data;
             Log.v("보낼 주소" , addr);
             try{
                 URL url = new URL(addr);
@@ -186,8 +186,21 @@ public class MypageActivity extends AppCompatActivity {
             if(msg.what == 0){
                 imageView.setImageResource(profileName);
             }else if(msg.what == 1){
-                recyAdapter = new ClaerRecodeAdapter(recodes, MypageActivity.this);
-                recyclerView.setAdapter(recyAdapter);
+                if(recodes.size() > 0){
+                    recyAdapter = new ClaerRecodeAdapter(recodes, MypageActivity.this);
+                    recyclerView.setAdapter(recyAdapter);
+                }else{
+                    TextView noRecode = new TextView(MypageActivity.this);
+                    noRecode.setText("클리어 기록이 존재하지 않습니다.");
+                    noRecode.setTextSize(20);
+                    LinearLayout.LayoutParams lp =
+                            new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
+                                    , 200, 1f);
+                    noRecode.setLayoutParams(lp);
+                    noRecode.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL);
+                    LinearLayout li = findViewById(R.id.myPage_layout);
+                    li.addView(noRecode);
+                }
             }
         }
     };

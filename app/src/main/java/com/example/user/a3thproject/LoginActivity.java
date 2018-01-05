@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
     class SendThread extends Thread{
 
         // 각자의 ip 주소 써주셔야 합니당~~
-        String addr = "http://10.10.15.87:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
+        String addr = "http://10.10.8.157:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
 
         @Override
         public void run() {

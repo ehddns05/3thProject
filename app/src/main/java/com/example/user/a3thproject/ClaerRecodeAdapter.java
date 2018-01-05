@@ -50,7 +50,11 @@ public class ClaerRecodeAdapter extends RecyclerView.Adapter<ClaerRecodeAdapter.
         return viewHolder;
     }
 
-    //
+    /**
+     * 새롭게 만들어진 뷰 안에 데이터를 채워넣는다.
+     * @param holder 새로 만들어진 뷰
+     * @param position 가져올 아이템의 위치
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ClearRecode recode = data.get(position);
