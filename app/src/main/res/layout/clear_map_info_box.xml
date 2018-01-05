@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/clear_map_info_box"
-    android:layout_width="200dp"
+    android:layout_width="220dp"
     android:layout_height="250dp"
     android:layout_margin="2dp"
     android:orientation="vertical"
     android:background="@drawable/clear_map_info"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:layout_marginRight="2dp">
 
     <ImageView
         android:id="@+id/clear_map_info_box_img"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="125dp"
         android:scaleType="fitXY"
         android:src="@drawable/escaperoom_img1"/>
 
