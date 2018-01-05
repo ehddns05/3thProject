@@ -33,11 +33,10 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
-        SharedPreferences.Editor autoLogin_editor = isCheckedForAutoLogin.edit();
-        autoLogin_editor.putString("autoLogin_checked", "false");
-        autoLogin_editor.commit();
 
-        if(isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true") || autoLogin_check.isChecked()){
+        Log.v("테스트 :", isCheckedForAutoLogin.getString("autoLogin_checked", null));
+
+        if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
 
             // 자동 로그인 체크 여부 저장
             SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
@@ -49,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
 
             id_data = autoLogin.getString("id_data", null);
             pw_data = autoLogin.getString("pw_data", null);
+
+            Log.v("MY_TEST", id_data + ", " + pw_data);
 
             if(id_data != null && pw_data != null){
                 Log.v("TEST_LOGIN", id_data + ", " + pw_data);
@@ -69,16 +70,46 @@ public class LoginActivity extends AppCompatActivity {
      * 로그인 버튼을 누르면 입력된 ID와 PW를 디비에서 확인하고 결과를 반환한다.
      * */
     public void loginBtn(View view){
-        id_input = findViewById(R.id.id_input);
-        pw_input = findViewById(R.id.pw_input);
 
-        id_data =  id_input.getText().toString();
-        pw_data =  pw_input.getText().toString();
+        SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
+        if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
 
-        Log.v("TEST >>", "id : " + id_data + ", pw : " + pw_data);
+            // 자동 로그인 체크 여부 저장
+            SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
+            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "true");
+            isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
 
-        SendThread thread = new SendThread();
-        thread.start();
+            //자동 로그인이 체크되어 있다면 실행
+            SharedPreferences autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+
+            id_data = autoLogin.getString("id_data", null);
+            pw_data = autoLogin.getString("pw_data", null);
+
+            Log.v("MY_TEST", id_data + ", " + pw_data);
+
+            if(id_data != null && pw_data != null){
+                Log.v("TEST_LOGIN", id_data + ", " + pw_data);
+                // 로그인 데이터가 있을 때
+                isAutoLogin = true;
+                SendThread thread = new SendThread();
+                thread.start();
+            }else{
+                // 로그인 데이터가 없을 때
+                isAutoLogin = false;
+
+            }//inner else if
+        }else{
+            id_input = findViewById(R.id.id_input);
+            pw_input = findViewById(R.id.pw_input);
+
+            id_data =  id_input.getText().toString();
+            pw_data =  pw_input.getText().toString();
+
+            Log.v("TEST >>", "id : " + id_data + ", pw : " + pw_data);
+
+            SendThread thread = new SendThread();
+            thread.start();
+        }//outer if-else
 
     }//loginBtn
 
