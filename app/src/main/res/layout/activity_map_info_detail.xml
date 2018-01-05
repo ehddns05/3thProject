@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.example.scitmaster.thesecretchamber.MapInfoDetailActivity">
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150sp"
+        android:src="@drawable/profile_default">
 
-</android.support.constraint.ConstraintLayout>
+    </ImageView>
+    <TextView
+        android:id="@+id/map_title"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:text="Map title"
+        android:gravity="left"
+        android:textSize="30dp"
+        android:layout_marginTop="30sp"
+        />
+    <TextView
+        android:id="@+id/score"
+    android:layout_width="300sp"
+    android:layout_height="wrap_content"
+    android:text="       5.0"
+    android:gravity="left"
+    android:textSize="40dp"
+    />
+
+    <TextView
+    android:id="@+id/star_score"
+        android:layout_width="300sp"
+    android:layout_height="wrap_content"
+    android:text="★★★★★"
+    android:gravity="left"
+    android:textSize="25dp"
+        android:layout_marginLeft="20sp"
+    />
+    <View
+        android:layout_width="320dp"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:background="#999999"
+        android:layout_marginTop="30sp"/>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content">
+
+
+    </ListView>
+</LinearLayout>
