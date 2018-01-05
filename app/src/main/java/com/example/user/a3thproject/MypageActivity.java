@@ -104,7 +104,7 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             //IP바꿔서 사용하기
-            String addr = "http://10.10.8.157:8888/escape/getClearRecord?id=" + id_data;
+            String addr = "http://10.10.15.87:8888/escape/getClearRecord?id=" + id_data;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -153,7 +153,7 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             //IP바꿔서 사용하기
-            String addr = "http://10.10.8.157:8888/escape/getUserProfile?id=" + id_data;
+            String addr = "http://10.10.15.87:8888/escape/getUserProfile?id=" + id_data;
             Log.v("보낼 주소" , addr);
             try{
                 URL url = new URL(addr);
