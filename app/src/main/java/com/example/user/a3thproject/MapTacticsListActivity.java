@@ -1,11 +1,17 @@
 package com.example.user.a3thproject;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +26,7 @@ public class MapTacticsListActivity extends AppCompatActivity {
     TacticsParentGroup parentGroup;
     TacticsChildGroup childGroup;
     List<TacticsChildGroup> innerChild;
+    List<String> testArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,9 @@ public class MapTacticsListActivity extends AppCompatActivity {
 
         listAdapter = new BaseExpandableAdapter(this, parentList, childList);
         expListView.setAdapter(listAdapter);
+
+        TacticsThread tacticsThread = new TacticsThread();
+        tacticsThread.start();
 
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             int lastClickedPosition = -1;
@@ -51,6 +61,65 @@ public class MapTacticsListActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    class TacticsThread extends Thread {
+        String address = "http://10.10.17.63:8088/androidTest/login";
+        private HttpURLConnection urlConnection;
+        private URL url;
+
+        @Override
+        public void run() {
+            try {
+                setupConnection();
+
+                if (!isConnectionOK()) {
+                    Toast.makeText(MapTacticsListActivity.this, "다시 시도해주세요",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                JSONArray jsonArray = new JSONArray(urlConnection.toString());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Object jsonData = jsonArray.getJSONObject(i).optString("null");
+                    testArray.add(String.valueOf(jsonArray));
+                }
+
+                for (String string : testArray) {
+                    System.out.println(string);
+                }
+                /*InputStreamReader reader = new InputStreamReader(urlConnection.getInputStream());
+                int dataFromClient;
+                StringBuilder responseFromClient = new StringBuilder();
+                while ((dataFromClient = reader.read()) != -1) {
+                    responseFromClient.append((char) dataFromClient);
+                }
+
+                if (responseFromClient.toString().equals("success"))
+                    Log.d("서버갔다오기테스트", "띠요요요요요요요요요요요요요요요요요요용옹");
+                else
+                    Log.d("서버갔다오기테스트", "실패!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                reader.close();
+                */
+            } catch (Exception e) {
+                e.printStackTrace();
+                /*Toast.makeText(MapTacticsListActivity.this, "초기화면으로 돌아갑니다",
+                        Toast.LENGTH_SHORT).show();*/
+            }
+        }
+
+        private boolean isConnectionOK() throws IOException {
+            return urlConnection.getResponseCode()
+                    == HttpURLConnection.HTTP_OK;
+        }
+
+        private void setupConnection() throws IOException {
+            url = new URL(address);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("dataType", "json");
+            urlConnection.setConnectTimeout(10000);
+        }
     }
 
     public void preparedListData() {
@@ -89,3 +158,4 @@ public class MapTacticsListActivity extends AppCompatActivity {
         Log.d("innerChild의 갯수", String.valueOf(innerChild.size()));
     }
 }
+
