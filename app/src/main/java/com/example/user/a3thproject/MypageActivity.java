@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +38,6 @@ public class MypageActivity extends AppCompatActivity {
     ArrayList<ClearRecode> recodes;
 
     StringBuffer sb = new StringBuffer();
-    TextView temp;
-
     int profileName;
     String id_data;
 
@@ -65,10 +64,11 @@ public class MypageActivity extends AppCompatActivity {
 
         //recyclerView 를 위한 설정. 가로 리스트뷰
         recyclerView = findViewById(R.id.user_profile_clearRecord);
-        recyLayoutManager = new LinearLayoutManager(this);
+        recyLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
         recyclerView.setLayoutManager(recyLayoutManager);
+        //가로 뷰를 처음부터 보여주는 설정
+        recyclerView.scrollToPosition(recodes.size()-1);
 
-        temp = findViewById(R.id.tempTest);
     }
 
     /**
@@ -83,7 +83,7 @@ public class MypageActivity extends AppCompatActivity {
         getProfile.start();
 
         //클리어 기록
-        Thread clearThread = new ClearRecodeThread(id_data);
+        Thread clearThread = new ClearRecodeThread();
         clearThread.start();
 
         //DM창으로 이동
@@ -101,11 +101,9 @@ public class MypageActivity extends AppCompatActivity {
      * 유저의 아이디로 유저가 클리어한 맵의 기록을 받아온다.
      */
     class ClearRecodeThread extends Thread{
-        String id_data;
-        public ClearRecodeThread(String id_data){ this.id_data = id_data; }
-
         @Override
         public void run() {
+            //IP바꿔서 사용하기
             String addr = "http://10.10.15.87:8888/escape/getClearRecord?id=" + id_data;
             try{
                 URL url = new URL(addr);
@@ -119,7 +117,6 @@ public class MypageActivity extends AppCompatActivity {
                         InputStreamReader inReader = new InputStreamReader(conn.getInputStream());
                         while ((ch = inReader.read()) != -1) sb.append((char) ch);
                         inReader.close();
-                        infoHandler.sendEmptyMessage(1);
 
                         //ArrayList에 받아온 정보를 넣는다
                         JSONArray json = new JSONArray(sb.toString());
@@ -133,6 +130,8 @@ public class MypageActivity extends AppCompatActivity {
 
                             recodes.add(new ClearRecode(id, mapTitle, clearTime, mapTitleImg, star));
                         }
+                        //핸들러에 메세지 보내서 뷰 출력하게 하기
+                        infoHandler.sendEmptyMessage(1);
                     }else{
                         Toast.makeText(MypageActivity.this, "서버 접속 불가"
                                 , Toast.LENGTH_SHORT).show();
@@ -153,6 +152,7 @@ public class MypageActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+            //IP바꿔서 사용하기
             String addr = "http://10.10.15.87:8888/escape/getUserProfile?id=" + id_data;
             Log.v("보낼 주소" , addr);
             try{
@@ -186,9 +186,8 @@ public class MypageActivity extends AppCompatActivity {
             if(msg.what == 0){
                 imageView.setImageResource(profileName);
             }else if(msg.what == 1){
-//                recyAdapter = new ClaerRecodeAdapter(recodes, MypageActivity.this);
-//                recyclerView.setAdapter(recyAdapter);
-                temp.setText(sb.toString());
+                recyAdapter = new ClaerRecodeAdapter(recodes, MypageActivity.this);
+                recyclerView.setAdapter(recyAdapter);
             }
         }
     };

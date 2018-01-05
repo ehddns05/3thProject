@@ -2,6 +2,7 @@ package com.example.user.a3thproject;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class ClaerRecodeAdapter extends RecyclerView.Adapter<ClaerRecodeAdapter.
 
         //이미지 찾아오기
         String userProfilePic = "@drawable/" + data.get(position).getMapTitleImg();
+        Log.v("받아온 이미지 이름 : ", userProfilePic);
         int profileId = context.getResources()
                 .getIdentifier(userProfilePic, "drawable", context.getPackageName());
         holder.clearMapPic.setImageResource(profileId);

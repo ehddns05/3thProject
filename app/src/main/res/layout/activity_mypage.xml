@@ -46,9 +46,4 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/tempTest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
 </LinearLayout>
