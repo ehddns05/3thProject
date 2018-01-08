@@ -24,7 +24,7 @@
         <activity android:name=".MapTacticsListActivity" android:label="MapTacticsList" />
         <activity android:name=".DirectMessageActivity" android:label="DirectMessage"/>
         <activity android:name=".DMDetailActivity" android:label="DM_Detail"/>
-        <!--<activity android:name=".MypageActivity" android:label="Mypage" />-->
+        <activity android:name=".MypageActivity" android:label="Mypage" />
     </application>
 
 </manifest>

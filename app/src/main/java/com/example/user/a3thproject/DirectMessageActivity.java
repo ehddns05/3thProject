@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 
 public class DirectMessageActivity extends AppCompatActivity {
 
-    Spinner spinner;
     RecyclerView dmList;
     RecyclerView.Adapter dmListAdapter;
     RecyclerView.LayoutManager dmListLayoutManager;
@@ -36,8 +36,6 @@ public class DirectMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direct_message);
-
-        spinner = findViewById(R.id.directMessage_spinner);
 
         autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
         id_data = autoLogin.getString("id_data", null);
@@ -81,12 +79,13 @@ public class DirectMessageActivity extends AppCompatActivity {
                             JSONObject jo = json.getJSONObject(i);
                             int no = jo.getInt("num");
                             String writer = jo.getString("writer");
-                            String title = jo.getString("title");
                             String content = jo.getString("content");
                             String date = jo.getString("date");
+                            String isChecked = jo.getString("isChecked");
 
-                            dmListData.add(new DirectMessage(no, writer, title, content, date));
+                            dmListData.add(new DirectMessage(no, writer, content, date, isChecked));
                         }
+                        Log.v("DMLISTDATA : ", "" + dmListData);
                         dmHandler.sendEmptyMessage(0);
                     }else{
                         Toast.makeText(DirectMessageActivity.this, "서버 접속 불가"
@@ -101,7 +100,7 @@ public class DirectMessageActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what == 0){
-                if(dmListData.size() != 0){
+                if(dmListData.size() > 0){
                     dmListAdapter = new DirectMessageAdapter(dmListData, DirectMessageActivity.this);
                     dmList.setAdapter(dmListAdapter);
                 }else{

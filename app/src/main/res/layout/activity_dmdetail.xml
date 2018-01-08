@@ -20,16 +20,20 @@
 
         <TextView
             android:id="@+id/dmDetail_num"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:gravity="center"
             android:text="0"/>
 
         <TextView
             android:id="@+id/dmDetail_title"
             android:layout_width="250dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:paddingLeft="10dp"
             android:textSize="20sp"
             android:text="Title"/>
 
@@ -37,6 +41,7 @@
             android:id="@+id/dmDetail_writer"
             android:layout_width="120dp"
             android:layout_weight="2"
+            android:textAlignment="viewEnd"
             android:layout_height="wrap_content"
             android:text="발신자"/>
 
@@ -66,15 +71,17 @@
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_weight="1">
         <EditText
             android:id="@+id/dmDetail_inputDM"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:lines="5"
+            android:layout_gravity="bottom"
             android:hint="여기에 메시지를 입력해주세요."
             android:scrollbars="vertical"
+            android:scrollHorizontally="false"
             android:gravity="bottom"/>
 
         <Button

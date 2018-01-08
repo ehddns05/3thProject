@@ -1,24 +1,28 @@
 package com.example.user.a3thproject;
 
+import java.io.Serializable;
+
 /**
  * Created by SCITMASTER on 2018-01-02.
  */
 
-public class DirectMessage {
+@SuppressWarnings("serial")
+public class DirectMessage implements Serializable{
     int num;
     String writer;
-    String title;
     String content;
     String date;
+    String isChecked;
+
 
     public DirectMessage(){}
 
-    public DirectMessage(int num, String writer, String title, String content, String date) {
+    public DirectMessage(int num, String writer, String content, String date, String isChecked) {
         this.num = num;
         this.writer = writer;
-        this.title = title;
         this.content = content;
         this.date = date;
+        this.isChecked = isChecked;
     }
 
     public void setNum(int num) {
@@ -27,10 +31,6 @@ public class DirectMessage {
 
     public void setWriter(String writer) {
         this.writer = writer;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void setContent(String content) {
@@ -45,10 +45,6 @@ public class DirectMessage {
         return writer;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public String getContent() {
         return content;
     }
@@ -61,13 +57,17 @@ public class DirectMessage {
         return num;
     }
 
+    public String getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(String isChecked) {
+        this.isChecked = isChecked;
+    }
+
     @Override
     public String toString() {
-        return "DirectMessage{" +
-                "writer='" + writer + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", date='" + date + '\'' +
-                '}';
+        return "DirectMessage [num=" + num + ", writer=" + writer + ", content=" + content
+                + ", date=" + date + ", isChecked=" + isChecked + "]";
     }
 }

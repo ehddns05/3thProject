@@ -49,6 +49,7 @@ public class MypageActivity extends AppCompatActivity {
 
         //로그인 완성 후 SharedPreferences 의 이름 저장된걸로 바꿔주기
         autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+
         textView = findViewById(R.id.user_profile_name);
         imageView = findViewById(R.id.user_profile_pic);
         imgbtn = findViewById(R.id.user_directMessage);
