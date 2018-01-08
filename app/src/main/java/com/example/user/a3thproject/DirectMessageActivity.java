@@ -1,19 +1,16 @@
 package com.example.user.a3thproject;
 
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -41,10 +38,11 @@ public class DirectMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_direct_message);
 
         spinner = findViewById(R.id.directMessage_spinner);
+
         autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
         id_data = autoLogin.getString("id_data", null);
 
-        //recyclerView 를 위한 설정. 가로 리스트뷰
+        //recyclerView 를 위한 설정. 세로 리스트뷰
         dmList = findViewById(R.id.directMessage_list);
         dmListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         dmList.setLayoutManager(dmListLayoutManager);

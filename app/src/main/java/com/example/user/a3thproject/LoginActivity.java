@@ -34,14 +34,16 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
 
-        Log.v("테스트 :", isCheckedForAutoLogin.getString("autoLogin_checked", null));
+        Log.v("테스트 :", isCheckedForAutoLogin.getString("autoLogin_checked", "없음"));
+
+
+        // 자동 로그인 체크 여부 저장
+        SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
+        isCheckedForAutoLogin_editor.putString("autoLogin_checked", "false");
+        isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
+
 
         if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
-
-            // 자동 로그인 체크 여부 저장
-            SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
-            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "true");
-            isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
 
             //자동 로그인이 체크되어 있다면 실행
             SharedPreferences autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
