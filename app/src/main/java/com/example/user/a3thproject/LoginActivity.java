@@ -3,6 +3,8 @@ package com.example.user.a3thproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,16 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
 
-        Log.v("테스트 :", isCheckedForAutoLogin.getString("autoLogin_checked", "없음"));
-
-
-        // 자동 로그인 체크 여부 저장
-        SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
-        isCheckedForAutoLogin_editor.putString("autoLogin_checked", "false");
-        isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
-
+        Log.v("테스트 :", isCheckedForAutoLogin.getString("autoLogin_checked", null));
 
         if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
+
+            // 자동 로그인 체크 여부 저장
+            SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
+            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "false");
+            isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
 
             //자동 로그인이 체크되어 있다면 실행
             SharedPreferences autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
     class SendThread extends Thread{
 
         // 각자의 ip 주소 써주셔야 합니당~~
-        String addr = "http://10.10.15.87:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
+        String addr = "http://203.233.199.108:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
 
         @Override
         public void run() {
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setRequestProperty("dataType", "json");
-                urlConnection.setConnectTimeout(10000);
+                urlConnection.setConnectTimeout(30000);
 
                 // 클라이언트로부터 받아오는 데이터를 StringBuilder로 받는다.
                 StringBuilder responseFromClient = new StringBuilder();
@@ -182,6 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         // 아이디 및 비번이 일치하지 않을 때 - 자동로그인 시
                         Log.v("TEST_LOGIN", "자동 로그인 실패!");
+                        messageHandler.sendEmptyMessage(0);
                         //Toast.makeText(LoginActivity.this, "자동로그인 실패!", Toast.LENGTH_SHORT).show();
 
                         return;
@@ -189,6 +190,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         // 아이디 및 비번이 일치하지 않을 때
                         Log.v("TEST_LOGIN", "일반 로그인 실패!");
+                        messageHandler.sendEmptyMessage(0);
                         //Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
                         return;
                     }//inner if
@@ -205,5 +207,15 @@ public class LoginActivity extends AppCompatActivity {
 
         }//run
     }//sendThread - inner Class
+
+    Handler messageHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 0){
+                Log.v("HandlerTEST", "IN");
+                Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
+            }//if
+        }//handleMessage
+    };// Handler
 
 }//LoginActivity
