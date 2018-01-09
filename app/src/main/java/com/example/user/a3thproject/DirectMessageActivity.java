@@ -117,6 +117,21 @@ public class DirectMessageActivity extends AppCompatActivity {
         }
     }
 
+    class DirectMessageHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 0){
+                if(dmListData.size() > 0){
+                    dmListAdapter = new DirectMessageAdapter(dmListData, DirectMessageActivity.this);
+                    dmList.setAdapter(dmListAdapter);
+                }else{
+                    //DM이 없을 경우 할 설정 - 아직미정
+                }
+            }
+        }
+    }
+
+
     Handler dmHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
