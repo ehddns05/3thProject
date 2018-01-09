@@ -76,6 +76,7 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("directMessage", dm);
                 intent.putExtras(bundle);
+                intent.putExtra("DM_NO", position + 1);
                 context.startActivity(intent);
             }
         });
@@ -83,7 +84,7 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
         DirectMessage dm = data.get(position);
 
         holder.content.setText(dm.getContent());
-        holder.no.setText(String.valueOf(dm.getNum()));
+        holder.no.setText(String.valueOf(position + 1));
         holder.writer.setText(dm.getWriter());
         holder.date.setText(dm.getDate());
         if(dm.getIsChecked().equals("true")){

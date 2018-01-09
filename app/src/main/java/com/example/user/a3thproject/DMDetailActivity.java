@@ -3,6 +3,8 @@ package com.example.user.a3thproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +28,8 @@ public class DMDetailActivity extends AppCompatActivity {
     Button sendBtn;
     DirectMessage dm;
 
+    int DM_NUM;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,7 @@ public class DMDetailActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         dm = (DirectMessage) getIntent.getSerializableExtra("directMessage");
+        DM_NUM = getIntent.getIntExtra("DM_NO",1);
         Log.v("받아온 Extra", dm + "");
 
         num = findViewById(R.id.dmDetail_num);
@@ -63,7 +68,6 @@ public class DMDetailActivity extends AppCompatActivity {
             }
 
             class SendMessage extends Thread {
-                StringBuffer sb = new StringBuffer();
                 String message;
                 String re_writer = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE).getString("id_data", null);
                 String user_id = writer.getText().toString();
@@ -81,11 +85,15 @@ public class DMDetailActivity extends AppCompatActivity {
                         if(conn != null){
                             conn.setRequestMethod("GET");
                             conn.setConnectTimeout(1000);
-                            if(conn.getResponseCode() == HttpURLConnection.HTTP_ACCEPTED){
+                            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
                                 InputStreamReader inr = new InputStreamReader(conn.getInputStream());
-                                int ch;
-                                while((ch = inr.read()) != -1) sb.append((char) ch);
-                                Toast.makeText(DMDetailActivity.this, sb, Toast.LENGTH_SHORT).show();
+                                if(inr.read() != 1 && inr.read() != 0){
+                                    Bundle data = new Bundle();
+                                    data.putString("msg", user_id + " 님께 DM을 전송하였습니다.");
+                                    Message message = new Message();
+                                    message.setData(data);
+                                    ToastHandler.sendMessage(message);
+                                }
                             }
                         }
                     }catch (Exception e){e.printStackTrace();}
@@ -99,10 +107,18 @@ public class DMDetailActivity extends AppCompatActivity {
     }
 
     public void setDirectMessage(){
-        num.setText(String.valueOf(dm.getNum()));
+        num.setText(String.valueOf(DM_NUM));
         date.setText(dm.getDate());
         writer.setText(dm.getWriter());
         title.setText(dm.getContent());
         content.setText(dm.getContent());
     }
+
+    Handler ToastHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            String message = msg.getData().getString("msg");
+            Toast.makeText(DMDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+    };
 }
