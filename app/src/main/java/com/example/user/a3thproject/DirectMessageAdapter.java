@@ -70,6 +70,7 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
                 //리스트를 클릭하면 isChecked 를 true로 바꿈
                 CheckDM checkDM = new CheckDM(dm.getNum());
                 checkDM.start();
+                notifyItemChanged(position);
 
                 //클래스 전체를 intent 안에 넣어 전송하기 위해 Bundle 객체를 사용한다
                 Intent intent = new Intent(context, DMDetailActivity.class);
@@ -88,7 +89,7 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
         holder.writer.setText(dm.getWriter());
         holder.date.setText(dm.getDate());
         if(dm.getIsChecked().equals("true")){
-            int color = Color.rgb(230,230,230);
+            int color = Color.rgb(200,200,200);
             holder.content.setTextColor(color);
             holder.no.setTextColor(color);
             holder.writer.setTextColor(color);
@@ -111,7 +112,14 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
         public void run() {
             try{
                 URL url = new URL("http://10.10.15.87:8888/escape/checkDM?num=" + num);
+                Log.v("메시지 체크했다고 변경하기 : ", url.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                if(conn != null){
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(1000);
+                    //응답을 요청해야 연결하기 때문에 ResponseCode 를 요청하거나 InputStream 을 열어주어야 한다.
+                    conn.getResponseCode();
+                }
             } catch (Exception e){e.printStackTrace();}
         }
     }

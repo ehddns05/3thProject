@@ -119,6 +119,7 @@ public class DMDetailActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             String message = msg.getData().getString("msg");
             Toast.makeText(DMDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+            finish();
         }
     };
 }

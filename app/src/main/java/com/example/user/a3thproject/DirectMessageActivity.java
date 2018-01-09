@@ -29,8 +29,8 @@ public class DirectMessageActivity extends AppCompatActivity {
     RecyclerView.LayoutManager dmListLayoutManager;
     SharedPreferences autoLogin;
     ArrayList<DirectMessage> dmListData;
-
     String id_data;
+    GetDMThread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,23 @@ public class DirectMessageActivity extends AppCompatActivity {
         //dmList에 넣을 메시지 데이터
         dmListData = new ArrayList<>();
 
-        GetDMThread thread = new GetDMThread();
+        thread = new GetDMThread();
+        thread.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dmListData = new ArrayList<>();
+        dmList = findViewById(R.id.directMessage_list);
+        dmListLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        dmList.setLayoutManager(dmListLayoutManager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        thread = new GetDMThread();
         thread.start();
     }
 
