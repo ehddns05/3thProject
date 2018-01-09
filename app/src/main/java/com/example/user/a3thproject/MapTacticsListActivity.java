@@ -1,6 +1,8 @@
 package com.example.user.a3thproject;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonToken;
 import android.util.Log;
@@ -41,9 +43,8 @@ public class MapTacticsListActivity extends AppCompatActivity {
         tacticsThread.start();
 
         expListView = findViewById(R.id.tacticsList);
-        listAdapter = new BaseExpandableAdapter(this, tacticsThread.parentList, tacticsThread.childList);
+        listAdapter = new BaseExpandableAdapter(this, parentList, childList);
 
-        System.out.println("getgroupcount" + listAdapter.getGroupCount());
         expListView.setAdapter(listAdapter);
 
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -89,6 +90,7 @@ public class MapTacticsListActivity extends AppCompatActivity {
 
                 getTacticsData();
 
+                tacticsHandler.sendEmptyMessage(0);
             } catch (Exception e) {
                 e.printStackTrace();
                 /*Toast.makeText(MapTacticsListActivity.this, "초기화면으로 돌아갑니다",
@@ -149,6 +151,15 @@ public class MapTacticsListActivity extends AppCompatActivity {
             }
         }
     }
+
+    Handler tacticsHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+
+            }
+        }
+    };
 
     public void preparedListData() {
         parentList = new ArrayList<>();
