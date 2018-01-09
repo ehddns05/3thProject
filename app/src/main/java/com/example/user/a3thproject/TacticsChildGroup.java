@@ -5,7 +5,6 @@ package com.example.user.a3thproject;
  */
 
 public class TacticsChildGroup {
-
     private String mapTitle;
     private String tacticsWriter;
     private String tacticsContent;
