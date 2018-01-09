@@ -1,6 +1,7 @@
 package com.example.user.a3thproject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -96,6 +97,10 @@ public class MypageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public static Context getContext(){
+        return getContext();
     }
 
     /**

@@ -2,6 +2,7 @@ package com.example.user.a3thproject;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,6 +67,10 @@ public class DirectMessageActivity extends AppCompatActivity {
         super.onStart();
         thread = new GetDMThread();
         thread.start();
+    }
+
+    public static Context getContext(){
+        return getContext();
     }
 
     /**
