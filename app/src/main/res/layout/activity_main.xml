@@ -1,73 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="center_horizontal"
+    android:background="#66dd99ff"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LOGOUT"
+        android:textSize="20sp"
         android:layout_gravity="right"
         android:onClick="logout_btn"
-        android:textColor="#999999"
+        android:textColor="#666666"
         android:background="#00ffffff"/>
 
-    <TextView
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:text="@string/main_page"
-        android:gravity="center"
-        android:textSize="50dp"
-        android:layout_marginTop="30sp"
-        />
     <ImageView
         android:id="@+id/imageView"
-        android:layout_marginTop="30dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_marginTop="80dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:src="@drawable/profile_default"
         />
     <TextView
         android:id="@+id/textView"
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="id"
-        android:textSize="20sp"/>
-    <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USERID"
+        android:textStyle="bold"
+        android:textColor="#666"
+        android:textSize="20sp"/>
+
+    <TableLayout
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="150sp"
-            android:layout_height="80sp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/button_style"
-            android:onClick="go_map_info"
-
-            android:text="Map
-Information" />
-        <Button
-            android:layout_width="150sp"
-            android:layout_height="80sp"
-            android:background="@drawable/button_style"
-            android:onClick="go_map_tactics"
-            android:text="Map
-Tactics"
-            />
-    </LinearLayout>
-
-    <Button
-        android:layout_marginTop="10sp"
-        android:layout_width="330sp"
-        android:layout_height="120sp"
-        android:text="My Page"
-        android:textSize="50sp"
-        android:onClick="go_mypage"
-        android:background="@drawable/button_style"
-        android:fontFamily="casual"/>
+        <TableRow>
+            <Button
+                android:layout_span="1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_style"
+                android:backgroundTint="#664600de"
+                android:onClick="go_map_info"
+                android:fontFamily="@font/ocra_std"
+                android:textSize="30sp"
+                android:textColor="#664600de"
+                android:text="Map
+Info" />
+            <Button
+                android:layout_span="1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="160sp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_style"
+                android:backgroundTint="#666600aa"
+                android:onClick="go_map_tactics"
+                android:fontFamily="@font/ocra_std"
+                android:textSize="30sp"
+                android:text="Map
+Tactics"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="160sp"
+                android:text="My Page"
+                android:onClick="go_mypage"
+                android:background="@drawable/button_style"
+                android:backgroundTint="#66ff66aa"
+                android:fontFamily="@font/ocra_std"
+                android:textSize="50sp"/>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

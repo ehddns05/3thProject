@@ -1,6 +1,7 @@
 package com.example.user.a3thproject;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     private List<TacticsParentGroup> parentList;
     private Map<Integer, List<TacticsChildGroup>> childList;
 
-    public BaseExpandableAdapter (Context context, List<TacticsParentGroup> parentList,
-                                  Map<Integer, List<TacticsChildGroup>> childList) {
+    public BaseExpandableAdapter(Context context, List<TacticsParentGroup> parentList,
+                                 Map<Integer, List<TacticsChildGroup>> childList) {
         this.context = context;
         this.parentList = parentList;
         this.childList = childList;
@@ -99,7 +100,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView mapTitle = convertView.findViewById(R.id.mapTitle);
         TextView tacticsWriter = convertView.findViewById(R.id.tacticsWriter);
-        TextView tacticsContents= convertView.findViewById(R.id.testChildText);
+        TextView tacticsContents = convertView.findViewById(R.id.testChildText);
 
         mapTitle.setText(childText.getMapTitle());
         tacticsWriter.setText(childText.getTacticsWriter());
