@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout_btn(View view){
-        logout_btn = findViewById(R.id.logout_btn);
+        logout_btn = findViewById(R.id.logout_btn_main);
 
         SharedPreferences.Editor autoLogin_editor = autoLogin.edit();
         autoLogin_editor.putString("autoLogin_checked", "false");
