@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.JsonToken;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +14,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,81 +24,84 @@ import java.util.Map;
 
 public class MapTacticsListActivity extends AppCompatActivity {
 
-    BaseExpandableAdapter listAdapter;
-    ExpandableListView expListView;
-    List<TacticsParentGroup> parentList;
-    List<TacticsChildGroup> innerChild;
-    Map<Integer, List<TacticsChildGroup>> childList;
-    TacticsParentGroup parentGroup;
-    TacticsChildGroup childGroup;
+    private static final String ADDRESS = "http://192.168.25.190:8088/escape/getTacticsList";
+
+    private ExpandableListView expListView;
+    private TacticsThread tacticsThread;
+    private final MyHandler myHandler = new MyHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_tactics_list);
 
-        //preparedListData();
-        TacticsThread tacticsThread = new TacticsThread();
+        tacticsThread = new TacticsThread();
         tacticsThread.start();
-
-        expListView = findViewById(R.id.tacticsList);
-        listAdapter = new BaseExpandableAdapter(this, parentList, childList);
-
-        expListView.setAdapter(listAdapter);
-
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            int lastClickedPosition = -1;
-
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView,
-                                        View view, int groupPosition, long id) {
-
-                if (lastClickedPosition != groupPosition) {
-                    expListView.collapseGroup(lastClickedPosition);
-                    expListView.expandGroup(groupPosition);
-                } else {
-                    expListView.collapseGroup(groupPosition);
-                }
-
-                lastClickedPosition = groupPosition;
-
-                return true;
-            }
-        });
     }
 
-    class TacticsThread extends Thread {
-        public List<TacticsParentGroup> parentList;
-        public List<TacticsChildGroup> innerChild;
-        public Map<Integer, List<TacticsChildGroup>> childList;
+    private void handleMessage(Message msg) {
+        switch (msg.what) {
+            case 0:
+                expListView = findViewById(R.id.tacticsList);
+                BaseExpandableAdapter listAdapter
+                        = new BaseExpandableAdapter(MapTacticsListActivity.this,
+                        tacticsThread.parentList, tacticsThread.childList);
+                expListView.setAdapter(listAdapter);
 
-        String address = "http://192.168.25.17:8088/escape/getTacticsList";
-        StringBuilder stringBuilder = new StringBuilder();
+                expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                    int lastClickedPosition = -1;
+
+                    @Override
+                    public boolean onGroupClick(ExpandableListView expandableListView,
+                                                View view, int groupPosition, long id) {
+
+                        if (lastClickedPosition != groupPosition) {
+                            expListView.collapseGroup(lastClickedPosition);
+                            expListView.expandGroup(groupPosition);
+                        } else {
+                            expListView.collapseGroup(groupPosition);
+                        }
+
+                        lastClickedPosition = groupPosition;
+
+                        return true;
+                    }
+                });
+                break;
+            case 1:
+                Toast.makeText(MapTacticsListActivity.this,
+                        "네트워크 상태가 불안정 합니다. 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private class TacticsThread extends Thread {
+        private StringBuilder stringBuilder = new StringBuilder();
         private HttpURLConnection urlConnection;
         private URL url;
+
+        List<TacticsParentGroup> parentList;
+        List<TacticsChildGroup> innerChild;
+        Map<Integer, List<TacticsChildGroup>> childList;
 
         @Override
         public void run() {
             try {
                 setupConnection();
-
                 if (!isConnectionOK()) {
-                    Log.d("에러발생", "connection 불량");
+                    myHandler.sendEmptyMessage(1);
                     return;
                 }
 
                 getTacticsData();
-
-                tacticsHandler.sendEmptyMessage(0);
+                myHandler.sendEmptyMessage(0);
             } catch (Exception e) {
                 e.printStackTrace();
-                /*Toast.makeText(MapTacticsListActivity.this, "초기화면으로 돌아갑니다",
-                        Toast.LENGTH_SHORT).show();*/
             }
         }
 
-        public void setupConnection() throws IOException {
-            url = new URL(address);
+        void setupConnection() throws IOException {
+            url = new URL(ADDRESS);
             urlConnection = (HttpURLConnection) url.openConnection();
 
             if (urlConnection == null) return;
@@ -109,15 +111,14 @@ public class MapTacticsListActivity extends AppCompatActivity {
             urlConnection.addRequestProperty("dataType", "json");
         }
 
-        public boolean isConnectionOK() throws IOException {
+        boolean isConnectionOK() throws IOException {
             return urlConnection.getResponseCode()
                     == HttpURLConnection.HTTP_OK;
         }
 
-        private void getTacticsData() throws IOException, JSONException {
+        void getTacticsData() throws IOException, JSONException {
             int count;
             InputStreamReader reader = new InputStreamReader(urlConnection.getInputStream());
-            JSONObject jsonObject;
             parentList = new ArrayList<>();
             innerChild = new ArrayList<>();
             childList = new HashMap<>();
@@ -132,53 +133,48 @@ public class MapTacticsListActivity extends AppCompatActivity {
             JSONArray parentArray = (JSONArray) jsonArray.get(0);
             JSONArray childArray = (JSONArray) jsonArray.get(1);
 
+            convertJsonToArray(parentArray, childArray);
+        }
+
+        void convertJsonToArray(JSONArray parentArray, JSONArray childArray) throws JSONException {
+            JSONObject jsonObject;
+
             for (int i = 0; i < parentArray.length(); i++) {
                 jsonObject = parentArray.getJSONObject(i);
-                parentGroup = new TacticsParentGroup(
+                TacticsParentGroup parentGroup = new TacticsParentGroup(
                         (Integer) jsonObject.get("listNo"),
                         (String) jsonObject.get("tacticsTitle"),
                         (String) jsonObject.get("date"));
+
                 parentList.add(parentGroup);
 
                 jsonObject = childArray.getJSONObject(i);
-                childGroup = new TacticsChildGroup(
+                TacticsChildGroup childGroup = new TacticsChildGroup(
                         (String) jsonObject.get("mapTitle"),
                         (String) jsonObject.get("tacticsWriter"),
                         (String) jsonObject.get("tacticsContent"));
-                innerChild.add(childGroup);
 
+                innerChild.add(childGroup);
                 childList.put(parentGroup.getListNo(), innerChild);
             }
         }
     }
 
-    Handler tacticsHandler = new Handler() {
+    private static class MyHandler extends Handler {
+        private final WeakReference<MapTacticsListActivity> mActivity;
+
+        private MyHandler(MapTacticsListActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-
+            MapTacticsListActivity activity = mActivity.get();
+            if (activity != null) {
+                activity.handleMessage(msg);
             }
         }
-    };
-
-    public void preparedListData() {
-        parentList = new ArrayList<>();
-        childList = new HashMap<>();
-        innerChild = new ArrayList<>();
-
-        parentGroup = new TacticsParentGroup(1, "Notice1", "20170102");
-        parentList.add(parentGroup);
-        childGroup = new TacticsChildGroup(
-                "완큐의방", "박완규1", "이방은탈출할수없다!!!!");
-        innerChild.add(childGroup);
-        childList.put(parentGroup.getListNo(), innerChild);
-
-        parentGroup = new TacticsParentGroup(2, "Notice2", "20170102");
-        parentList.add(parentGroup);
-        childGroup = new TacticsChildGroup(
-                "완큐의방", "박완규2", "이방은탈출할수없다!!!!");
-        innerChild.add(childGroup);
-        childList.put(parentGroup.getListNo(), innerChild);
     }
+
 }
 
