@@ -3,6 +3,7 @@ package com.example.user.a3thproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,10 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity {
 
     final static int EDIT_VALUE = 0;
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button logout_btn;
     SharedPreferences autoLogin;
     String id;
+    Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
 
         autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+
+        Intent intent = getIntent();
+        id = intent.getStringExtra("loginUser");
+        textView.setText(id);
+
+        GetInfoThread thread = new GetInfoThread();
+        thread.start();
+        int image = getResources().getIdentifier(user.getProfile(),"drawable", getApplicationContext().getPackageName());
+        imageView.setImageResource(image);
+
     }
     //맵 정보 게시판으로 넘어가는 메서드
     public void go_map_info(View view){
@@ -83,4 +99,50 @@ public class MainActivity extends AppCompatActivity {
         finish();
 
     }//logout_btn
+
+    class GetInfoThread extends Thread{
+
+        String address = "http://10.10.15.10:8088/escape/app_getInfo?email="+id;
+        Message message;
+
+        @Override
+        public void run() {
+            try {
+                URL url = new URL(address);
+                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+
+                StringBuilder sb = new StringBuilder();
+
+                if (connection != null) {
+                    connection.setRequestMethod("GET");
+                    connection.setRequestProperty("dataType", "json");
+                    connection.setConnectTimeout(10000);
+                    if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+                        int ch;
+                        while ((ch = reader.read()) != -1) sb.append((char) ch);
+                        reader.close();
+
+                        //ArrayList에 받아온 정보를 넣는다
+                        JSONArray json = new JSONArray(sb.toString());
+                        for (int i = 0; i < json.length(); i++) {
+                           JSONObject jo = json.getJSONObject(i);
+                            String id = jo.getString("id");
+                            String pw  = jo.getString("pw");
+                            String email = jo.getString("email");
+                            String name = jo.getString("name");
+                            String nickname = jo.getString("nickname");
+                            String profile = jo.getString("profile");
+                            String room_title = jo.getString("room_title");
+                            user = new Users(id,pw,email,name,nickname,profile,room_title);
+
+                        }
+                    }
+                }
+            }catch (Exception e){
+
+            }
+
+        }
+    }
 }
