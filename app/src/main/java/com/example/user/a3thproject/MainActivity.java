@@ -1,9 +1,13 @@
 package com.example.user.a3thproject;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     final static int EDIT_VALUE = 0;
     ImageView imageView;
     TextView textView;
+    Button logout_btn;
+    SharedPreferences autoLogin;
     String id;
 
     @Override
@@ -24,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.imageView);
         textView = findViewById(R.id.textView);
+
+        autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
     }
     //맵 정보 게시판으로 넘어가는 메서드
     public void go_map_info(View view){
@@ -61,4 +69,18 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    public void logout_btn(View view){
+        logout_btn = findViewById(R.id.logout_btn);
+
+        SharedPreferences.Editor autoLogin_editor = autoLogin.edit();
+        autoLogin_editor.putString("autoLogin_checked", "false");
+        autoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
+        Log.v("테스트 :", autoLogin.getString("autoLogin_checked", "false"));
+
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+
+    }//logout_btn
 }

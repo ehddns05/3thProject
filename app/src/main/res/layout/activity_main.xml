@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="LOGOUT"
         android:layout_gravity="right"
+        android:onClick="logout_btn"
         android:textColor="#999999"
         android:background="#00ffffff"/>
 

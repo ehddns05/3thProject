@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     String id_data, pw_data;
     CheckBox autoLogin_check;
     boolean isAutoLogin;
-    final int LOGIN_REQUEST_CODE = 0001;
+    final int LOGIN_FAILED = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
 
-        Log.v("테스트 :", isCheckedForAutoLogin.getString("autoLogin_checked", null));
-
         if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
 
             // 자동 로그인 체크 여부 저장
             SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
-            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "false");
+            isCheckedForAutoLogin_editor.putString("autoLogin_checked", "true");
             isCheckedForAutoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
 
             //자동 로그인이 체크되어 있다면 실행
@@ -173,24 +171,21 @@ public class LoginActivity extends AppCompatActivity {
                         login_info_editor.putString("pw_data", pw_data);
                         login_info_editor.commit();// 사용자가 입력한 로그인데이터를 최종적으로 commit 함으로써 데이터를 저장할 수 있다. (commit 필수!)
 
-                        //Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("loginUser", id_data);
                         startActivity(intent);
                     }else if(isAutoLogin == true && responseFromClient.toString().equals("fail")){
 
                         // 아이디 및 비번이 일치하지 않을 때 - 자동로그인 시
                         Log.v("TEST_LOGIN", "자동 로그인 실패!");
-                        messageHandler.sendEmptyMessage(0);
-                        //Toast.makeText(LoginActivity.this, "자동로그인 실패!", Toast.LENGTH_SHORT).show();
+                        messageHandler.sendEmptyMessage(LOGIN_FAILED);
 
                         return;
                     }else if(isAutoLogin == false && responseFromClient.toString().equals("fail")){
 
                         // 아이디 및 비번이 일치하지 않을 때
                         Log.v("TEST_LOGIN", "일반 로그인 실패!");
-                        messageHandler.sendEmptyMessage(0);
+                        messageHandler.sendEmptyMessage(LOGIN_FAILED);
                         //Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
                         return;
                     }//inner if
@@ -211,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
     Handler messageHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what == 0){
+            if(msg.what == LOGIN_FAILED){
                 Log.v("HandlerTEST", "IN");
                 Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();
             }//if

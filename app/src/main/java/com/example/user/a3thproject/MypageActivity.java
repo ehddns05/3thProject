@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class MypageActivity extends AppCompatActivity {
     ImageView imageView;
     ImageButton imgbtn;
     SharedPreferences autoLogin;
+    Button logout_btn;
     RecyclerView recyclerView;
     RecyclerView.Adapter recyAdapter;
     RecyclerView.LayoutManager recyLayoutManager;
@@ -110,7 +112,7 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             //IP바꿔서 사용하기
-            String addr = "http://10.10.15.87:8888/escape/getClearRecord?id=" + id_data;
+            String addr = "http://203.233.199.108:8888/escape/getClearRecord?id=" + id_data;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -210,4 +212,18 @@ public class MypageActivity extends AppCompatActivity {
             }
         }
     };
+
+    public void logout_btn(View view){
+        logout_btn = findViewById(R.id.logout_btn);
+
+        SharedPreferences.Editor autoLogin_editor = autoLogin.edit();
+        autoLogin_editor.putString("autoLogin_checked", "false");
+        autoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
+
+        Intent intent = new Intent(MypageActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+
+    }//logout_btn
+
 }
