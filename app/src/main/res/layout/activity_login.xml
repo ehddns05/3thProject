@@ -2,29 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_02"
+    android:backgroundTint="#88ffffff"
+    android:backgroundTintMode="src_atop"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/loginText"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40sp"
-        android:layout_marginTop="80dp"
-        android:baselineAligned="false"
-        android:text="Login"
-        android:textSize="30sp"
-        />
+        android:layout_marginBottom="150dp">
+        <TextView
+            android:id="@+id/loginText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:baselineAligned="false"
+            android:text="The Secret Chamber"
+            android:textAlignment="center"
+            android:textSize="60sp"
+            android:textColor="#aa6600aa"
+            android:fontFamily="@font/showg_title"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inven"
+            android:textAlignment="textEnd"
+            android:paddingRight="65dp"
+            android:textSize="35sp"
+            android:textColor="#aaff66aa"
+            android:layout_below="@id/loginText"
+            android:fontFamily="@font/showg_title"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/idText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
             android:layout_marginTop="10dp"
             android:text="ID"
             android:textSize="20sp" />
@@ -41,14 +60,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/pwText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="30dp"
             android:text="PW"
             android:textSize="20sp" />
 
@@ -58,7 +77,6 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:layout_marginLeft="40sp"
-            android:layout_marginTop="30dp"
             android:hint="PW를 입력하세요."
             android:textSize="15sp"
             />
@@ -66,12 +84,24 @@
 
     <Button
         android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_style_login"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:onClick="loginBtn"
+        android:onClick="loginBtn"/>
+
+    <CheckBox
+        android:id="@+id/autoLogin_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto login"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="right"
         />
 
 
@@ -80,17 +110,9 @@
         android:layout_height="wrap_content"
         android:text="회원이 아니신가요?"
         android:gravity="center_horizontal"
-        android:layout_marginTop="30dp"
         android:onClick="isNotMember"
         />
 
-    <CheckBox
-        android:id="@+id/autoLogin_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Auto login"
-        android:layout_gravity="right"
-        />
 
 
 </LinearLayout>
