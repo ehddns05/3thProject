@@ -112,12 +112,12 @@ public class MypageActivity extends AppCompatActivity {
         @Override
         public void run() {
             //IP바꿔서 사용하기
-            String addr = "http://203.233.199.108:8888/escape/getClearRecord?id=" + id_data;
+            String addr = "http://10.10.15.87:8888/escape/getClearRecord?id=" + id_data;
             try{
                 URL url = new URL(addr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 if(conn != null){
-                    conn.setConnectTimeout(1000);
+                    conn.setConnectTimeout(3000);
                     conn.setRequestMethod("GET");
                     conn.addRequestProperty("dataType", "json");
                     if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
