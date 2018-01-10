@@ -3,12 +3,15 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="@drawable/back_02"
+    android:backgroundTintMode="src_atop"
+    android:backgroundTint="#88ffffff"
     android:gravity="center_horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="250dp">
 
         <Button
             android:id="@+id/logout_btn_main"
@@ -19,96 +22,84 @@
             android:textSize="20sp"
             android:layout_gravity="right"
             android:onClick="logout_btn"
-            android:textColor="#666666"
+            android:textColor="#ffffff"
             android:background="#00ffffff"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/back_02"/>
-
         <View
-            android:layout_marginTop="80dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/profile"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/circle"/>
+
         <ImageView
-            android:layout_marginTop="95dp"
-            android:layout_marginLeft="35dp"
             android:id="@+id/imageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_marginTop="95dp"
+            android:layout_marginLeft="35dp"
+            android:layout_centerInParent="true"
             android:src="@drawable/profile_default"
             />
 
-        <!--<TextView-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:text="USERID"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="#666"-->
-            <!--android:textSize="20sp"/>-->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="USERID"
+            android:textColor="#666"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="My Page"
+        android:background="@drawable/button_style"
+        android:backgroundTint="#88ff66aa"
+        android:textColor="#dd66aa"
 
-    <TableLayout
-        android:layout_weight="1"
-        android:gravity="bottom"
+        android:onClick="go_mypage"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:background="@drawable/button_style">
 
-        <TableRow>
-            <Button
-                android:layout_span="1"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/button_style"
-                android:backgroundTint="#334600de"
-                android:onClick="go_map_info"
-                android:fontFamily="@font/showg_title"
-                android:textSize="30sp"
-                android:textColor="#4600de"
-                android:text="Map
-Info" />
-            <Button
-                android:layout_span="1"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="160sp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_style"
-                android:backgroundTint="#336600aa"
-                android:textColor="#6600aa"
-                android:onClick="go_map_tactics"
-                android:fontFamily="@font/showg_title"
-                android:textSize="30sp"
-                android:text="Map
-Tactics"/>
-        </TableRow>
-        <TableRow>
-            <Button
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:layout_marginLeft="10sp"
-                android:layout_marginRight="10sp"
-                android:layout_width="match_parent"
-                android:layout_height="160sp"
-                android:text="My Page"
-                android:onClick="go_mypage"
-                android:background="@drawable/button_style"
-                android:backgroundTint="#33ff66aa"
-                android:textColor="#dd66aa"
-                android:fontFamily="@font/showg_title"
-                android:textSize="50sp"/>
-        </TableRow>
-    </TableLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:onClick="go_map_info"
+            android:textSize="20sp"
+            android:textColor="#333"
+            android:background="#00ffffff"
+            android:text="Map Information" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/dot_line"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textColor="#333"
+            android:onClick="go_map_tactics"
+            android:textSize="20sp"
+            android:background="#00ffffff"
+            android:text="Map Tactics"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/dot_line"/>
+
+    </LinearLayout>
 </LinearLayout>
