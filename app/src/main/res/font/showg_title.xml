@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+<font-family
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <font
         android:fontStyle="normal"
         android:font="@font/showg_title_font"
         app:fontStyle="normal"
-        app:fomt="@font/showg_title_font"/>
+        app:font="@font/showg_title_font"/>
 
 </font-family>
