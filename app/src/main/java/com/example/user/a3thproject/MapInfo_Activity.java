@@ -35,7 +35,7 @@ public class MapInfo_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_map_info_list);
         game_maps = new ArrayList<>();
 
-        RecyclerView game_map_list = findViewById(R.id.rv);
+        game_map_list = findViewById(R.id.rv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         game_map_list.setLayoutManager(linearLayoutManager);
@@ -48,11 +48,11 @@ public class MapInfo_Activity extends AppCompatActivity {
 
     private class SendThread extends Thread{
 
-        String addr = "http://10.10.11.162:8888/escape/getMapInfo";
 
         @Override
         public void run() {
             try {
+                String addr = "http://203.233.199.108:8888/escape/app_getMapInfo";
                 Log.v("THREADTEST", "COMPLETE3");
                 URL url = new URL(addr);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -60,7 +60,7 @@ public class MapInfo_Activity extends AppCompatActivity {
                 urlConnection.setRequestProperty("dataType", "json");
                 urlConnection.setConnectTimeout(30000);
 
-                Log.v("THREADTEST", "COMPLETE4");
+                Log.v("THREADTEST", "COMPLETE4 : " + urlConnection.getResponseCode());
                 StringBuilder mapData_json = new StringBuilder();
                 if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
                     Log.v("THREADTEST", "COMPLETE5");
@@ -73,10 +73,12 @@ public class MapInfo_Activity extends AppCompatActivity {
                     int stream_data;
                     while((stream_data = receivingMapData.read()) != -1){
                         Log.v("THREADTEST", "COMPLETE6");
-
-                        mapData_json.append((char)stream_data);
+                       mapData_json.append((char)stream_data);
                     }//while
+
+                    Log.v("THREADTEST", "COMPLETE8 : " + mapData_json);
                     JSONArray json = new JSONArray(mapData_json.toString());
+                    Log.v("THREADTEST", "COMPLETE8 : " + json.length());
                     for(int i=0; i < json.length(); i++){
                         // 데이터 가지고 오기
                         JSONObject jsonObject = json.getJSONObject(i);
@@ -84,13 +86,13 @@ public class MapInfo_Activity extends AppCompatActivity {
                         int no = jsonObject.getInt("no");
                         String user_id = jsonObject.getString("user_id");
                         String title = jsonObject.getString("title");
-                        int inputdate = Integer.parseInt(jsonObject.getString("inputdate"));
+                        String inputdate = jsonObject.getString("inputdate");
 
                         game_maps.add(new GameMap_VO(title, user_id, inputdate));
                     }//for
-                    Log.v("THREADTEST", "COMPLETE7");
+
                     GameMap_Handler.sendEmptyMessage(0);
-                    Log.v("THREADTEST", "COMPLETE8");
+
                 }//if
 
 

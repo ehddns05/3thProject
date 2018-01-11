@@ -3,9 +3,9 @@ package com.example.user.a3thproject;
 public class GameMap_VO {
     private String map_name;
     private String master_name;
-    private int created_date;
+    private String created_date;
 
-    public GameMap_VO(String map_name, String master_name, int created_date) {
+    public GameMap_VO(String map_name, String master_name, String created_date) {
         this.map_name = map_name;
         this.master_name = master_name;
         this.created_date = created_date;
@@ -27,11 +27,11 @@ public class GameMap_VO {
         this.master_name = master_name;
     }
 
-    public int getCreated_date() {
+    public String getCreated_date() {
         return created_date;
     }
 
-    public void setCreated_date(int created_date) {
+    public void setCreated_date(String created_date) {
         this.created_date = created_date;
     }
 

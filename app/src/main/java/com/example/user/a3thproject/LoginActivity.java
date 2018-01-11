@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * 로그인하는 사용자 당 하나의 쓰레드 적용
      * */
-    class SendThread extends Thread{
+    private class SendThread extends Thread{
 
         // 각자의 ip 주소 써주셔야 합니당~~
         String addr = "http://203.233.199.108:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
