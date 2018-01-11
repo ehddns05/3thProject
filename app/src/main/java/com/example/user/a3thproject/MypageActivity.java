@@ -211,7 +211,7 @@ public class MypageActivity extends AppCompatActivity {
         logout_btn = findViewById(R.id.logout_btn);
 
         SharedPreferences.Editor autoLogin_editor = autoLogin.edit();
-        autoLogin_editor.putString("autoLogin_checked", "false");
+        autoLogin_editor.putString("autoLogin_checkbox", "false");
         autoLogin_editor.commit(); // commit 안 하면 데이터 초기화 안 됨.
 
         Intent intent = new Intent(MypageActivity.this, LoginActivity.class);

@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
 
+        Log.v("AUTOLOGINCHECK", isCheckedForAutoLogin.getString("autoLogin_checked", "null"));
+
         if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", "null").equals("true")){
 
             // 자동 로그인 체크 여부 저장
@@ -123,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
     class SendThread extends Thread{
 
         // 각자의 ip 주소 써주셔야 합니당~~
-        String addr = "http://10.10.15.87:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
+        String addr = "http://203.233.199.108:8888/escape/app_login?id=" + id_data + "&pw=" + pw_data;
 
         @Override
         public void run() {

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         textView = findViewById(R.id.textView);
 
-        autoLogin = getSharedPreferences("autoLogin", Activity.MODE_PRIVATE);
+        autoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("loginUser");
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //맵 정보 게시판으로 넘어가는 메서드
     public void go_map_info(View view){
-        Intent intent = new Intent(this, MapInfoListActivity.class);
+        Intent intent = new Intent(this, MapInfo_Activity.class);
         startActivityForResult(intent,EDIT_VALUE);
     }
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }//logout_btn
 
     class GetInfoThread extends Thread{
-        String address = "http://10.10.15.10:8088/escape/app_getInfo?id="+id;
+        String address = "http://203.233.199.108:8088/escape/app_getInfo?id="+id;
         JSONArray json;
         JSONObject jo;
         @Override
