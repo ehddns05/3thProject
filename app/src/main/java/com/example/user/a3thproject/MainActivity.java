@@ -3,16 +3,14 @@ package com.example.user.a3thproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,10 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }//logout_btn
 
     class GetInfoThread extends Thread{
-
         String address = "http://10.10.15.87:8088/escape/app_getInfo?email="+id;
-        Message message;
-
         @Override
         public void run() {
             try {
