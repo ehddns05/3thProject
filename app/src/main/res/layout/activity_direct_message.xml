@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:background="@drawable/back_01"
     android:orientation="vertical">
 
     <TextView
@@ -12,11 +13,16 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="My Page"
+        android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/directMessage_list"
+        android:background="@drawable/clear_map_info"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>

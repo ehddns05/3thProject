@@ -66,7 +66,7 @@ public class MypageActivity extends AppCompatActivity {
 
         //recyclerView 를 위한 설정. 가로 리스트뷰
         recyclerView = findViewById(R.id.user_profile_clearRecord);
-        recyLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
+        recyLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         recyclerView.setLayoutManager(recyLayoutManager);
         //가로 뷰를 처음부터 보여주는 설정
         recyclerView.scrollToPosition(recodes.size()-1);

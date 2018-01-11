@@ -7,47 +7,72 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/logout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LOGOUT"
-        android:layout_gravity="right"
-        android:onClick="logout_btn"
-        android:textColor="#999999"
-        android:background="#00ffffff"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_weight="1">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/back_01"/>
 
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGOUT"
+            android:layout_alignParentRight="true"
+            android:onClick="logout_btn"
+            android:textColor="#999999"
+            android:background="#00ffffff"/>
 
-    <ImageView
-        android:id="@+id/user_profile_pic"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/profile_01"
-        android:layout_weight="1"/>
+        <View
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/circle"/>
 
-    <TextView
-        android:id="@+id/user_profile_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="임시 닉네임"
-        android:padding="10dp"/>
+        <ImageView
+            android:id="@+id/user_profile_pic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/profile_01"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="100dp"
+            android:layout_weight="1"/>
 
-    <ImageButton
-        android:id="@+id/user_directMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/message_icon"
-        android:layout_marginBottom="20dp"
-        android:background="#000fffff"/>
+        <TextView
+            android:id="@+id/user_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="임시 닉네임"
+            android:textSize="18sp"
+            android:layout_toRightOf="@id/user_profile_pic"
+            android:layout_marginTop="200dp"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/user_directMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/user_profile_name"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/message_icon"
+            android:background="#000fffff"/>
+
+    </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/user_profile_clearRecord"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="horizontal">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>
