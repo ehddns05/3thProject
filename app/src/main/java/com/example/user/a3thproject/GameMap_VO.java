@@ -4,11 +4,21 @@ public class GameMap_VO {
     private String map_name;
     private String master_name;
     private String created_date;
+    private String titleimg;
 
-    public GameMap_VO(String map_name, String master_name, String created_date) {
+    public GameMap_VO(String map_name, String master_name, String created_date, String titleimg) {
         this.map_name = map_name;
         this.master_name = master_name;
         this.created_date = created_date;
+        this.titleimg = titleimg;
+    }
+
+    public String getTitleimg() {
+        return titleimg;
+    }
+
+    public void setTitleimg(String titleimg) {
+        this.titleimg = titleimg;
     }
 
     public String getMap_name() {
@@ -40,7 +50,8 @@ public class GameMap_VO {
         return "GameMap_VO{" +
                 "map_name='" + map_name + '\'' +
                 ", master_name='" + master_name + '\'' +
-                ", created_date=" + created_date +
+                ", created_date='" + created_date + '\'' +
+                ", titleimg='" + titleimg + '\'' +
                 '}';
     }
 }//GameMap_VO

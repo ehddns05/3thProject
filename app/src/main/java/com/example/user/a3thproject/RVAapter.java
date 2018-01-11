@@ -32,9 +32,33 @@ public class RVAapter extends RecyclerView.Adapter<RVAapter.GameMap_ViewHolder> 
     @Override
     public void onBindViewHolder(GameMap_ViewHolder gameMap_viewHolder, int position) {
         Log.v("cardviewTest", "onBindViewHolder IN");
+
+        Log.v("getInfoTEST", game_maps.get(position).getMap_name());
+        Log.v("getInfoTEST", game_maps.get(position).getMaster_name());
+        Log.v("getInfoTEST", game_maps.get(position).getCreated_date());
+        Log.v("getInfoTEST", game_maps.get(position).getTitleimg());
+
+        // 맵 생성날짜 및 맵 이름 도 가지고는 오지만..........귀차니즘으로 인하여 하지 않음..
+
         gameMap_viewHolder.map_name.setText(game_maps.get(position).getMap_name());
-        gameMap_viewHolder.master_name.setText(game_maps.get(position).getMap_name());
-        gameMap_viewHolder.map_image.setImageResource(R.drawable.map_title_02);
+        gameMap_viewHolder.master_name.setText(game_maps.get(position).getMaster_name());
+
+        String titleimg = game_maps.get(position).getTitleimg();
+        switch(titleimg){
+            case "mapTitle01":
+                gameMap_viewHolder.map_image.setImageResource(R.drawable.map_title_01);
+                break;
+            case "mapTitle02":
+                gameMap_viewHolder.map_image.setImageResource(R.drawable.map_title_02);
+                break;
+            case "mapTitle03":
+                gameMap_viewHolder.map_image.setImageResource(R.drawable.map_title_03);
+                break;
+            default:
+                gameMap_viewHolder.map_image.setImageResource(R.drawable.map_title_06);
+                break;
+        }//switch
+
     }
 
     @Override

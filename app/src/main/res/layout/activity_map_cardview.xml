@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/map_title_01"
             />
 
         <TextView
@@ -35,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ex_photo"
             android:layout_alignParentLeft="true"
-            android:text="Map Title"
             android:textSize="30sp"
             />
 
@@ -45,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ex_photo"
             android:layout_toRightOf="@id/map_name"
-            android:text="master"
             />
 
     </RelativeLayout>

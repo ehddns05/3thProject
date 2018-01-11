@@ -86,11 +86,12 @@ public class MapInfo_Activity extends AppCompatActivity {
                         int no = jsonObject.getInt("no");
                         String user_id = jsonObject.getString("user_id");
                         String title = jsonObject.getString("title");
+                        String titleimg = jsonObject.getString("titleimg");
                         String inputdate = jsonObject.getString("inputdate");
 
-                        game_maps.add(new GameMap_VO(title, user_id, inputdate));
+                        game_maps.add(new GameMap_VO(title, user_id, inputdate, titleimg));
                     }//for
-
+                    Log.v("cardviewTest", game_maps.toString());
                     GameMap_Handler.sendEmptyMessage(0);
 
                 }//if
