@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -24,8 +28,6 @@ import java.util.Map;
 
 public class MapTacticsListActivity extends AppCompatActivity {
 
-    private static final String ADDRESS = "http://192.168.25.190:8088/escape/getTacticsList";
-
     private ExpandableListView expListView;
     private TacticsThread tacticsThread;
     private final MyHandler myHandler = new MyHandler(this);
@@ -35,8 +37,16 @@ public class MapTacticsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_tactics_list);
 
-        tacticsThread = new TacticsThread();
-        tacticsThread.start();
+        //tacticsThread = new TacticsThread();
+        //tacticsThread.start();
+
+        Button searchButton = findViewById(R.id.search_btn);
+        searchButton.setOnClickListener(v -> {
+            tacticsThread = new TacticsThread();
+            tacticsThread.start();
+        });
+
+        //searchButton.performClick();
     }
 
     private void handleMessage(Message msg) {
@@ -101,7 +111,16 @@ public class MapTacticsListActivity extends AppCompatActivity {
         }
 
         void setupConnection() throws IOException {
-            url = new URL(ADDRESS);
+            EditText vSearchWord = findViewById(R.id.search_bar);
+            Spinner vSearchType = findViewById(R.id.spinner);
+            String searchType = vSearchType.getSelectedItem().toString();
+            String searchWord = vSearchWord.getText().toString();
+
+            Log.d("검색타입", searchType);
+            Log.d("검색단어", searchWord);
+            String address = "http://10.10.17.63:8088/escape/getTacticsList?"
+                    + "searchType=" + searchType + "&searchWord=" + searchWord;
+            url = new URL(address);
             urlConnection = (HttpURLConnection) url.openConnection();
 
             if (urlConnection == null) return;
