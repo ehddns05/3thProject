@@ -12,7 +12,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="My Page"
+        android:text="Direct Message"
         android:textColor="#fff"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -23,6 +23,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         android:layout_gravity="top"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
