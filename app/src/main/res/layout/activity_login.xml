@@ -34,85 +34,90 @@
             android:layout_below="@id/loginText"
             android:fontFamily="@font/showg_title"/>
     </RelativeLayout>
-
     <LinearLayout
+        android:gravity="bottom"
+        android:paddingBottom="20dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/idText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="ID"
-            android:textSize="20sp" />
+            android:gravity="center">
 
-        <EditText
-            android:id="@+id/id_input"
-            android:layout_width="215dp"
+            <TextView
+                android:id="@+id/idText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="ID"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/id_input"
+                android:layout_width="215dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50sp"
+                android:layout_marginTop="10dp"
+                android:hint="ID를 입력하세요."
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50sp"
-            android:layout_marginTop="10dp"
-            android:hint="ID를 입력하세요."
-            android:textSize="15sp" />
-    </LinearLayout>
+            android:layout_marginTop="20dp"
+            android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center">
+            <TextView
+                android:id="@+id/pwText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PW"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/pwText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PW"
-            android:textSize="20sp" />
+            <EditText
+                android:id="@+id/pw_input"
+                android:layout_width="215dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:layout_marginLeft="40sp"
+                android:hint="PW를 입력하세요."
+                android:textSize="15sp"
+                />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/pw_input"
-            android:layout_width="215dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:layout_marginLeft="40sp"
-            android:hint="PW를 입력하세요."
-            android:textSize="15sp"
-            />
-    </LinearLayout>
-
-    <Button
+        <Button
         android:id="@+id/loginBtn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="20dp"
         android:textColor="#ffffff"
-        android:background="@drawable/button_style_login"
+        android:background="@drawable/button_style_loginbtn"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:onClick="loginBtn"/>
 
-    <CheckBox
-        android:id="@+id/autoLogin_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Auto login"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="right"
-        />
+        <CheckBox
+            android:id="@+id/autoLogin_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto login"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            />
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="회원이 아니신가요?"
-        android:gravity="center_horizontal"
-        android:onClick="isNotMember"
-        />
-
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원이 아니신가요?"
+            android:gravity="center_horizontal"
+            android:onClick="isNotMember"
+            />
+    </LinearLayout>
 
 </LinearLayout>

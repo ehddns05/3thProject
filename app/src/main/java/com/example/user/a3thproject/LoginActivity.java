@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
         autoLogin_check = findViewById(R.id.autoLogin_check);
 
-        if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
+        if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", "null").equals("true")){
 
             // 자동 로그인 체크 여부 저장
             SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loginBtn(View view){
 
         SharedPreferences isCheckedForAutoLogin = getSharedPreferences("autoLogin_checkbox", Activity.MODE_PRIVATE);
-        if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", null).equals("true")){
+        if(autoLogin_check.isChecked() || isCheckedForAutoLogin.getString("autoLogin_checked", "null").equals("true")){
 
             // 자동 로그인 체크 여부 저장
             SharedPreferences.Editor isCheckedForAutoLogin_editor = isCheckedForAutoLogin.edit();

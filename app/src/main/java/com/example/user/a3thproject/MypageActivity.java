@@ -56,12 +56,9 @@ public class MypageActivity extends AppCompatActivity {
         textView = findViewById(R.id.user_profile_name);
         imageView = findViewById(R.id.user_profile_pic);
         imgbtn = findViewById(R.id.user_directMessage);
-        imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
-                startActivity(intent);
-            }
+        imgbtn.setOnClickListener(e -> {
+            Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
+            startActivity(intent);
         });
 
         recodes = new ArrayList<>();
@@ -92,12 +89,9 @@ public class MypageActivity extends AppCompatActivity {
         clearThread.start();
 
         //DM창으로 이동
-        imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
-                startActivity(intent);
-            }
+        imgbtn.setOnClickListener( e -> {
+            Intent intent = new Intent(MypageActivity.this, DirectMessageActivity.class);
+            startActivity(intent);
         });
     }
 

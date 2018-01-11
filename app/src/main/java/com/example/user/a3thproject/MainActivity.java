@@ -3,13 +3,16 @@ package com.example.user.a3thproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences autoLogin;
     String id;
     Users user;
+    int image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         GetInfoThread thread = new GetInfoThread();
         thread.start();
-        int image = getResources().getIdentifier(user.getProfile(),"drawable", getApplicationContext().getPackageName());
-        imageView.setImageResource(image);
 
     }
     //맵 정보 게시판으로 넘어가는 메서드
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     class GetInfoThread extends Thread{
 
-        String address = "http://10.10.15.10:8088/escape/app_getInfo?email="+id;
+        String address = "http://10.10.15.87:8088/escape/app_getInfo?email="+id;
         Message message;
 
         @Override
@@ -135,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
                             String profile = jo.getString("profile");
                             String room_title = jo.getString("room_title");
                             user = new Users(id,pw,email,name,nickname,profile,room_title);
+                            image = getResources().getIdentifier(user.getProfile(),"drawable", getApplicationContext().getPackageName());
 
+                            handler.sendEmptyMessage(0);
                         }
                     }
                 }
@@ -145,4 +149,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 0){
+                imageView.setImageResource(image);
+            }
+        }
+    };
+
+
 }

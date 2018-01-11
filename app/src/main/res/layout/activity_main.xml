@@ -56,12 +56,12 @@
     </RelativeLayout>
 
     <Button
-        android:layout_width="300dp"
+        android:layout_width= "300dp"
         android:layout_height="60dp"
         android:text="My Page"
-        android:background="@drawable/button_style"
-        android:backgroundTint="#88ff66aa"
-        android:textColor="#dd66aa"
+        android:background="@drawable/btn_style"
+        android:backgroundTint="#99aa55ff"
+        android:textColor="#aa55dd"
 
         android:onClick="go_mypage"
         android:textSize="30sp"/>
@@ -71,7 +71,7 @@
         android:layout_height="300dp"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_style">
+        android:background="@drawable/btn_style">
 
         <Button
             android:layout_width="match_parent"
