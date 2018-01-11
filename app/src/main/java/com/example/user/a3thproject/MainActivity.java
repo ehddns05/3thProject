@@ -101,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
     }//logout_btn
 
     class GetInfoThread extends Thread{
-        String address = "http://10.10.15.87:8088/escape/app_getInfo?email="+id;
+        String address = "http://10.10.15.10:8088/escape/app_getInfo?id="+id;
+        JSONArray json;
+        JSONObject jo;
         @Override
         public void run() {
             try {
@@ -111,35 +113,38 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
 
                 if (connection != null) {
+
                     connection.setRequestMethod("GET");
                     connection.setRequestProperty("dataType", "json");
                     connection.setConnectTimeout(10000);
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
                         InputStreamReader reader = new InputStreamReader(connection.getInputStream());
                         int ch;
-                        while ((ch = reader.read()) != -1) sb.append((char) ch);
+                        while ((ch = reader.read()) != -1) {sb.append((char) ch);}
                         reader.close();
-
+                        Log.v("dd",sb.toString());
                         //ArrayList에 받아온 정보를 넣는다
-                        JSONArray json = new JSONArray(sb.toString());
-                        for (int i = 0; i < json.length(); i++) {
-                           JSONObject jo = json.getJSONObject(i);
-                            String id = jo.getString("id");
-                            String pw  = jo.getString("pw");
-                            String email = jo.getString("email");
-                            String name = jo.getString("name");
-                            String nickname = jo.getString("nickname");
-                            String profile = jo.getString("profile");
-                            String room_title = jo.getString("room_title");
-                            user = new Users(id,pw,email,name,nickname,profile,room_title);
-                            image = getResources().getIdentifier(user.getProfile(),"drawable", getApplicationContext().getPackageName());
+                        jo = new JSONObject(sb.toString());
+                        System.out.println(json);
+                        Log.v("dd","길이는 : "+json);
 
-                            handler.sendEmptyMessage(0);
-                        }
+                        String id = jo.getString("id");
+                        String pw  = jo.getString("pw");
+                        String email = jo.getString("email");
+                        String name = jo.getString("name");
+                        String nickname = jo.getString("nickname");
+                        String profile = jo.getString("profile");
+                        String room_title = jo.getString("room_title");
+                        user = new Users(id,pw,email,name,nickname,profile,room_title);
+                        Log.v("dde",user.toString());
+                        image = getResources().getIdentifier("@drawable/"+user.getProfile(),"drawable", getApplicationContext().getPackageName());
+
+                        handler.sendEmptyMessage(0);
                     }
                 }
             }catch (Exception e){
-
+                e.printStackTrace();
             }
 
         }
