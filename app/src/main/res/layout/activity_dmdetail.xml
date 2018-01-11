@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Page"
+        android:text="Direct Message"
         android:gravity="center"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -88,7 +88,10 @@
             android:id="@+id/dmDetail_sendDM"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="보내기"
-            android:textSize="20sp"/>
+            android:background="@drawable/btn_style"
+            android:backgroundTint="#99aa55ff"
+            android:textColor="#aa55dd"
+            android:text="Send"
+            android:textSize="22sp"/>
     </LinearLayout>
 </LinearLayout>
