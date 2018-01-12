@@ -52,7 +52,7 @@ public class MapInfo_Activity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                String addr = "http://203.233.199.108:8888/escape/app_getMapInfo";
+                String addr = "http://10.10.15.87:8888/escape/app_getMapInfo";
                 Log.v("THREADTEST", "COMPLETE3");
                 URL url = new URL(addr);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -83,24 +83,18 @@ public class MapInfo_Activity extends AppCompatActivity {
                         // 데이터 가지고 오기
                         JSONObject jsonObject = json.getJSONObject(i);
                         Log.v("THREADTEST", "COMPLETE_0");
-                        int no = jsonObject.getInt("no");
                         String user_id = jsonObject.getString("user_id");
                         String title = jsonObject.getString("title");
                         String titleimg = jsonObject.getString("titleimg");
                         String inputdate = jsonObject.getString("inputdate");
+                        int star = jsonObject.getInt("star");
 
-                        game_maps.add(new GameMap_VO(title, user_id, inputdate, titleimg));
+                        game_maps.add(new GameMap_VO(title, user_id, inputdate, titleimg, star));
                     }//for
                     Log.v("cardviewTest", game_maps.toString());
                     GameMap_Handler.sendEmptyMessage(0);
 
                 }//if
-
-
-
-
-
-
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

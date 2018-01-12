@@ -43,6 +43,7 @@ public class RVAapter extends RecyclerView.Adapter<RVAapter.GameMap_ViewHolder> 
         gameMap_viewHolder.map_name.setText(game_maps.get(position).getMap_name());
         gameMap_viewHolder.master_name.setText(game_maps.get(position).getMaster_name());
 
+        //맵 이미지
         String titleimg = game_maps.get(position).getTitleimg();
         switch(titleimg){
             case "mapTitle01":
@@ -58,6 +59,15 @@ public class RVAapter extends RecyclerView.Adapter<RVAapter.GameMap_ViewHolder> 
                 gameMap_viewHolder.map_image.setImageResource(R.drawable.map_title_06);
                 break;
         }//switch
+
+        //생성날짜
+        gameMap_viewHolder.inputDate.setText(game_maps.get(position).getCreated_date());
+
+        //별점
+        double starGrade = game_maps.get(position).getStar();
+        StringBuffer star = new StringBuffer("☆☆☆☆☆");
+        for(int i = 0; i< (int)starGrade; i++) star.replace(i,i+1,"★");
+        gameMap_viewHolder.starScore.setText(star.toString());
 
     }
 
@@ -75,7 +85,7 @@ public class RVAapter extends RecyclerView.Adapter<RVAapter.GameMap_ViewHolder> 
     public static class GameMap_ViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         TextView map_name;
-        TextView master_name;
+        TextView master_name, inputDate, starScore;
         ImageView map_image;
 
 
@@ -85,10 +95,8 @@ public class RVAapter extends RecyclerView.Adapter<RVAapter.GameMap_ViewHolder> 
             map_name = itemView.findViewById(R.id.map_name);
             master_name = itemView.findViewById(R.id.master_name);
             map_image = itemView.findViewById(R.id.ex_photo);
+            inputDate = itemView.findViewById(R.id.input_date);
+            starScore = itemView.findViewById(R.id.star);
         }//constractor
     }//GameMap_ViewHolder
-
-
-
-
 }//RVAapter

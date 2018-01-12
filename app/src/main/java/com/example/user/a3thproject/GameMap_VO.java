@@ -5,12 +5,14 @@ public class GameMap_VO {
     private String master_name;
     private String created_date;
     private String titleimg;
+    private double star;
 
-    public GameMap_VO(String map_name, String master_name, String created_date, String titleimg) {
+    public GameMap_VO(String map_name, String master_name, String created_date, String titleimg, double star) {
         this.map_name = map_name;
         this.master_name = master_name;
         this.created_date = created_date;
         this.titleimg = titleimg;
+        this.star = star;
     }
 
     public String getTitleimg() {
@@ -45,6 +47,14 @@ public class GameMap_VO {
         this.created_date = created_date;
     }
 
+    public double getStar() {
+        return star;
+    }
+
+    public void setStar(double star) {
+        this.star = star;
+    }
+
     @Override
     public String toString() {
         return "GameMap_VO{" +
@@ -52,6 +62,7 @@ public class GameMap_VO {
                 ", master_name='" + master_name + '\'' +
                 ", created_date='" + created_date + '\'' +
                 ", titleimg='" + titleimg + '\'' +
+                ", star=" + star +
                 '}';
     }
 }//GameMap_VO
