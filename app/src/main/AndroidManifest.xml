@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MapInfo_Activity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         <activity android:name=".DirectMessageActivity" android:label="DirectMessage"/>
         <activity android:name=".DMDetailActivity" android:label="DM_Detail"/>
         <activity android:name=".MypageActivity" android:label="Mypage" />
-        <!--<activity android:name=".MapInfo_Activity" android:label="Information"/>-->
+        <activity android:name=".MapInfo_Activity" android:label="Information"/>
     </application>
 
 </manifest>

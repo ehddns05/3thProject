@@ -118,7 +118,7 @@ public class MapTacticsListActivity extends AppCompatActivity {
 
             Log.d("검색타입", searchType);
             Log.d("검색단어", searchWord);
-            String address = "http://10.10.17.63:8088/escape/getTacticsList?"
+            String address = "http://10.10.15.87:8888/escape/getTacticsList?"
                     + "searchType=" + searchType + "&searchWord=" + searchWord;
             url = new URL(address);
             urlConnection = (HttpURLConnection) url.openConnection();

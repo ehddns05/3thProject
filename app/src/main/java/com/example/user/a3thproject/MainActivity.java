@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }//logout_btn
 
     class GetInfoThread extends Thread{
-        String address = "http://203.233.199.108:8088/escape/app_getInfo?id="+id;
+        String address = "http://10.10.15.87:8088/escape/app_getInfo?id="+id;
         JSONArray json;
         JSONObject jo;
         @Override
